@@ -1,0 +1,215 @@
+<main class="shell" [class.light]="!darkMode()">
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-icon">MF</span>
+      <div>
+        <strong>MchongoFasta</strong>
+        <small>Operations</small>
+      </div>
+    </div>
+
+    <nav aria-label="Primary navigation">
+      <button class="nav-item active" type="button">
+        <span class="glyph">D</span>
+        Dashboard
+      </button>
+      <button class="nav-item" type="button">
+        <span class="glyph">J</span>
+        Jobs
+      </button>
+      <button class="nav-item" type="button">
+        <span class="glyph">V</span>
+        Verification
+      </button>
+      <button class="nav-item" type="button">
+        <span class="glyph">P</span>
+        Payments
+      </button>
+    </nav>
+
+    <section class="funding">
+      <span>Funding target</span>
+      <strong>TZS 300M</strong>
+      <div class="progress"><span></span></div>
+      <small>App, onboarding, marketing, staff training and regional rollout.</small>
+    </section>
+  </aside>
+
+  <section class="workspace">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Tanzania gig marketplace</p>
+        <h1>Daily work, verified fast.</h1>
+      </div>
+
+      <div class="top-actions">
+        <div class="search">
+          <span class="glyph">S</span>
+          <input type="search" placeholder="Search jobs, workers, regions" />
+        </div>
+        <button class="icon-button" type="button" (click)="toggleTheme()" [attr.aria-label]="darkMode() ? 'Use light mode' : 'Use dark mode'">
+          <span>{{ darkMode() ? 'L' : 'D' }}</span>
+        </button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="live-pill">Live matching engine</span>
+        <h2>Connect households and SMEs to vetted workers for short-term tasks.</h2>
+        <p>
+          Worker verification, ratings, instant matching, in-app payments, commissions,
+          subscriptions and targeted ads are tracked in one calm operations view.
+        </p>
+        <div class="hero-actions">
+          <button class="primary-button" type="button">Post job</button>
+          <button class="secondary-button" type="button">Review queue</button>
+        </div>
+      </div>
+
+      <div class="phone-preview" aria-label="Mobile app preview">
+        <div class="phone-bar"></div>
+        <div class="phone-card accent">
+          <span>Verified worker</span>
+          <strong>Asha Mwinyi</strong>
+          <small>Cleaning specialist • 1.1 km • 4.9</small>
+        </div>
+        <div class="scan-box">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <div class="phone-row">
+          <small>House cleaning</small>
+          <strong>TZS 35,000</strong>
+        </div>
+        <button type="button">Accept mchongo</button>
+      </div>
+    </section>
+
+    @if (loading()) {
+      <p class="status-banner">Loading live platform data…</p>
+    } @else if (error()) {
+      <p class="status-banner error" role="alert">{{ error() }}</p>
+    }
+
+    <section class="stats-grid" aria-label="Platform metrics">
+      @for (stat of stats(); track stat.label) {
+        <article>
+          <span>{{ stat.label }}</span>
+          <strong>{{ stat.value }}</strong>
+          <small>{{ stat.delta }} this month</small>
+        </article>
+      }
+    </section>
+
+    <section class="content-grid">
+      <article class="panel job-panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Task marketplace</p>
+            <h2>Job queue</h2>
+          </div>
+          <div class="segmented">
+            @for (queue of ['All', 'Matching', 'Review']; track queue) {
+              <button
+                type="button"
+                [class.active]="selectedQueue() === queue"
+                (click)="setQueue(queue)"
+              >
+                {{ queue }}
+              </button>
+            }
+          </div>
+        </div>
+
+        <div class="table-list">
+          @for (job of filteredJobs(); track job.id) {
+            <div class="job-row">
+              <div>
+                <strong>{{ job.title }}</strong>
+                <span>{{ job.category }} • {{ job.area }}</span>
+              </div>
+              <span>{{ job.budget }}</span>
+              <span class="status" [class.review]="job.status === 'Needs review'">{{ job.status }}</span>
+              <span>{{ job.applicants }} applicants</span>
+            </div>
+          }
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Worker trust</p>
+            <h2>Verification desk</h2>
+          </div>
+          <button class="icon-button" type="button" aria-label="Open verification filters">
+            <span>F</span>
+          </button>
+        </div>
+
+        <div class="worker-list">
+          @for (worker of workers(); track worker.id) {
+            <div class="worker-row">
+              <div class="avatar">{{ worker.name[0] }}</div>
+              <div>
+                <strong>{{ worker.name }}</strong>
+                <span>{{ worker.skill }} • {{ worker.jobs }} jobs • {{ worker.rating }}</span>
+              </div>
+              <small [class.pending]="worker.status === 'Reviewing'">{{ worker.status }}</small>
+            </div>
+          }
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Demand mix</p>
+            <h2>Categories</h2>
+          </div>
+        </div>
+
+        <div class="category-list">
+          @for (category of categories(); track category.name) {
+            <div>
+              <span>{{ category.name }}</span>
+              <div class="bar"><span [style.width.%]="category.value"></span></div>
+              <strong>{{ category.value }}%</strong>
+            </div>
+          }
+        </div>
+      </article>
+
+      <article class="panel revenue-panel">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">Business model</p>
+            <h2>Revenue streams</h2>
+          </div>
+        </div>
+
+        <div class="revenue-card">
+          <span>10%</span>
+          <div>
+            <strong>Task commission</strong>
+            <small>Core fee from each completed job.</small>
+          </div>
+        </div>
+        <div class="revenue-card">
+          <span>VIP</span>
+          <div>
+            <strong>Premium workers</strong>
+            <small>Priority listings, badges and visibility.</small>
+          </div>
+        </div>
+        <div class="revenue-card">
+          <span>AD</span>
+          <div>
+            <strong>In-app advertising</strong>
+            <small>Local services promoted to active users.</small>
+          </div>
+        </div>
+      </article>
+    </section>
+  </section>
+</main>
