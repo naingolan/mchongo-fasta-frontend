@@ -13,11 +13,10 @@ describe('App', () => {
 
   it('should create the app', () => {
     const fixture = TestBed.createComponent(App);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+    expect(fixture.componentInstance).toBeTruthy();
   });
 
-  it('should render the dashboard headline', () => {
+  it('should render the landing headline and login', () => {
     const fixture = TestBed.createComponent(App);
     const http = TestBed.inject(HttpTestingController);
 
@@ -36,7 +35,10 @@ describe('App', () => {
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Daily work, verified fast.');
+    expect(compiled.querySelector('h1')?.textContent).toContain(
+      'Where verified workers meet real jobs',
+    );
+    expect(compiled.textContent).toContain('Log in');
     http.verify();
   });
 });

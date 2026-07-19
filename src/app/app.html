@@ -1,215 +1,280 @@
-<main class="shell" [class.light]="!darkMode()">
-  <aside class="sidebar">
-    <div class="brand">
-      <span class="brand-icon">MF</span>
-      <div>
-        <strong>MchongoFasta</strong>
-        <small>Operations</small>
-      </div>
-    </div>
+<div class="page">
+  <div class="glow" aria-hidden="true"></div>
 
-    <nav aria-label="Primary navigation">
-      <button class="nav-item active" type="button">
-        <span class="glyph">D</span>
-        Dashboard
-      </button>
-      <button class="nav-item" type="button">
-        <span class="glyph">J</span>
-        Jobs
-      </button>
-      <button class="nav-item" type="button">
-        <span class="glyph">V</span>
-        Verification
-      </button>
-      <button class="nav-item" type="button">
-        <span class="glyph">P</span>
-        Payments
-      </button>
+  <header class="nav">
+    <a class="brand" href="#top">
+      <span class="brand-mark">MF</span>
+      <strong>MchongoFasta</strong>
+    </a>
+
+    <nav aria-label="Primary">
+      <a href="#idea">The idea</a>
+      <a href="#workers">Workers</a>
+      <a href="#employers">Employers</a>
+      <a href="#model">Business</a>
     </nav>
 
-    <section class="funding">
-      <span>Funding target</span>
-      <strong>TZS 300M</strong>
-      <div class="progress"><span></span></div>
-      <small>App, onboarding, marketing, staff training and regional rollout.</small>
-    </section>
-  </aside>
+    <div class="nav-actions">
+      <button class="ghost-btn" type="button" (click)="openLogin()">Log in</button>
+      <a class="primary-btn" href="#get-started">Get started</a>
+    </div>
+  </header>
 
-  <section class="workspace">
-    <header class="topbar">
-      <div>
-        <p class="eyebrow">Tanzania gig marketplace</p>
-        <h1>Daily work, verified fast.</h1>
-      </div>
-
-      <div class="top-actions">
-        <div class="search">
-          <span class="glyph">S</span>
-          <input type="search" placeholder="Search jobs, workers, regions" />
-        </div>
-        <button class="icon-button" type="button" (click)="toggleTheme()" [attr.aria-label]="darkMode() ? 'Use light mode' : 'Use dark mode'">
-          <span>{{ darkMode() ? 'L' : 'D' }}</span>
-        </button>
-      </div>
-    </header>
-
+  <main id="top">
     <section class="hero">
-      <div class="hero-copy">
-        <span class="live-pill">Live matching engine</span>
-        <h2>Connect households and SMEs to vetted workers for short-term tasks.</h2>
-        <p>
-          Worker verification, ratings, instant matching, in-app payments, commissions,
-          subscriptions and targeted ads are tracked in one calm operations view.
-        </p>
-        <div class="hero-actions">
-          <button class="primary-button" type="button">Post job</button>
-          <button class="secondary-button" type="button">Review queue</button>
-        </div>
+      <p class="eyebrow">Tanzania daily-work marketplace</p>
+      <h1>Where verified workers meet real jobs — fast.</h1>
+      <p class="lede">
+        MchongoFasta connects households and SMEs to vetted short-term help for cleaning,
+        delivery, care, and repairs — with map discovery, trust checks, and secure payouts.
+      </p>
+      <div class="hero-ctas">
+        <a class="primary-btn" href="#get-started">Find work</a>
+        <a class="secondary-btn" href="#employers">Hire talent</a>
       </div>
 
-      <div class="phone-preview" aria-label="Mobile app preview">
-        <div class="phone-bar"></div>
-        <div class="phone-card accent">
-          <span>Verified worker</span>
-          <strong>Asha Mwinyi</strong>
-          <small>Cleaning specialist • 1.1 km • 4.9</small>
-        </div>
-        <div class="scan-box">
-          <span></span><span></span><span></span><span></span>
-        </div>
-        <div class="phone-row">
-          <small>House cleaning</small>
-          <strong>TZS 35,000</strong>
-        </div>
-        <button type="button">Accept mchongo</button>
+      <div class="preview-grid" aria-label="Product previews">
+        <article class="glass-card">
+          <div class="card-head">
+            <h2>Latest jobs near you</h2>
+            <span>{{ loading() ? '…' : 'Live' }}</span>
+          </div>
+          <ul class="job-feed">
+            @for (job of previewJobs(); track job.id) {
+              <li>
+                <div>
+                  <strong>{{ job.title }}</strong>
+                  <small>{{ job.category }} • {{ job.area }}</small>
+                </div>
+                <em>{{ job.budget }}</em>
+              </li>
+            }
+          </ul>
+        </article>
+
+        <article class="glass-card center-card">
+          <h2>Match &amp; get paid</h2>
+          <div class="gauge" aria-hidden="true">
+            <div class="gauge-arc"></div>
+            <div class="gauge-core">
+              <strong>TZS 128K</strong>
+              <small>wallet ready</small>
+            </div>
+          </div>
+          <p>Apply from the map, complete the mchongo, and withdraw to M-Pesa.</p>
+          <button class="primary-btn full" type="button" (click)="openLogin()">
+            Open worker app
+          </button>
+        </article>
+
+        <article class="glass-card">
+          <div class="card-head">
+            <h2>Recent activity</h2>
+            <span>Today</span>
+          </div>
+          <ul class="activity-feed">
+            <li>
+              <span class="dot">A</span>
+              <div>
+                <strong>Asha applied</strong>
+                <small>Cleaning • 12 min ago</small>
+              </div>
+              <em>+1</em>
+            </li>
+            <li>
+              <span class="dot">J</span>
+              <div>
+                <strong>Job matched</strong>
+                <small>Kariakoo delivery</small>
+              </div>
+              <em>TZS 18K</em>
+            </li>
+            <li>
+              <span class="dot">V</span>
+              <div>
+                <strong>ID verified</strong>
+                <small>NIDA check passed</small>
+              </div>
+              <em>OK</em>
+            </li>
+          </ul>
+        </article>
       </div>
     </section>
 
-    @if (loading()) {
-      <p class="status-banner">Loading live platform data…</p>
-    } @else if (error()) {
-      <p class="status-banner error" role="alert">{{ error() }}</p>
-    }
+    <section class="section" id="idea">
+      <div class="section-copy">
+        <p class="eyebrow">The idea</p>
+        <h2>Daily work should be trusted, local, and instant.</h2>
+        <p>
+          Too many short-term jobs in Dar still run on WhatsApp forwards and unverified strangers.
+          MchongoFasta builds a marketplace where workers prove identity and skill, employers post
+          clearly, and matching happens on a map — then payment stays in-app.
+        </p>
+      </div>
 
-    <section class="stats-grid" aria-label="Platform metrics">
-      @for (stat of stats(); track stat.label) {
+      <div class="idea-grid">
         <article>
-          <span>{{ stat.label }}</span>
-          <strong>{{ stat.value }}</strong>
-          <small>{{ stat.delta }} this month</small>
+          <strong>01</strong>
+          <h3>Browse on a map</h3>
+          <p>See open mchongo around you first, then switch to a clean list when you prefer.</p>
         </article>
+        <article>
+          <strong>02</strong>
+          <h3>Two clear sides</h3>
+          <p>Guests find jobs by default. Employers sign in separately to hire. Applying requires login.</p>
+        </article>
+        <article>
+          <strong>03</strong>
+          <h3>Trust before work</h3>
+          <p>National ID, address checks, ratings, and references protect both sides of every task.</p>
+        </article>
+        <article>
+          <strong>04</strong>
+          <h3>Pay with confidence</h3>
+          <p>Commissions, premium visibility, and in-app ads fund the platform while workers get paid fast.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="split-section" id="workers">
+      <div>
+        <p class="eyebrow">For workers</p>
+        <h2>Find mchongo. Prove trust. Get paid.</h2>
+        <ul class="checklist">
+          <li>Discover nearby jobs on map or list</li>
+          <li>Sign in only when you are ready to apply</li>
+          <li>Complete verification for better matches</li>
+          <li>Track earnings and withdraw securely</li>
+        </ul>
+        <button class="primary-btn" type="button" (click)="openLogin()">Worker log in</button>
+      </div>
+      <aside class="glass-card soft">
+        <h3>Worker journey</h3>
+        <ol>
+          <li>Browse open tasks as a guest</li>
+          <li>Tap a job → sign in to apply</li>
+          <li>Finish verification for priority matching</li>
+          <li>Complete work and receive payout</li>
+        </ol>
+      </aside>
+    </section>
+
+    <section class="split-section reverse" id="employers">
+      <div>
+        <p class="eyebrow">For employers</p>
+        <h2>Hire reliable help in minutes.</h2>
+        <ul class="checklist">
+          <li>Post cleaning, logistics, care, or technical tasks</li>
+          <li>Review verified applicants with ratings</li>
+          <li>Track progress and release payment</li>
+          <li>Build a trusted shortlist for next time</li>
+        </ul>
+        <button class="primary-btn" type="button" (click)="openLogin()">Employer log in</button>
+      </div>
+      <aside class="glass-card soft">
+        <h3>Employer journey</h3>
+        <ol>
+          <li>Open the employer invite from the app</li>
+          <li>Sign in and set up your hiring profile</li>
+          <li>Post a task with budget and timing</li>
+          <li>Match, confirm, and pay in one flow</li>
+        </ol>
+      </aside>
+    </section>
+
+    <section class="section model-section" id="model">
+      <div class="section-copy">
+        <p class="eyebrow">Business model</p>
+        <h2>Built to scale across Tanzania.</h2>
+      </div>
+
+      <div class="model-grid">
+        <article class="funding-card">
+          <span>Funding target</span>
+          <strong>TZS 300M</strong>
+          <div class="progress"><span></span></div>
+          <p>App, onboarding, marketing, staff training and regional rollout.</p>
+        </article>
+
+        <article class="revenue-card-panel">
+          <p class="eyebrow">Business model</p>
+          <h3>Revenue streams</h3>
+          <div class="revenue-row">
+            <span>10%</span>
+            <div>
+              <strong>Task commission</strong>
+              <small>Core fee from each completed job.</small>
+            </div>
+          </div>
+          <div class="revenue-row">
+            <span>VIP</span>
+            <div>
+              <strong>Premium workers</strong>
+              <small>Priority listings, badges and visibility.</small>
+            </div>
+          </div>
+          <div class="revenue-row">
+            <span>AD</span>
+            <div>
+              <strong>In-app advertising</strong>
+              <small>Local services promoted to active users.</small>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      @if (stats().length) {
+        <div class="stats-strip" aria-label="Platform metrics">
+          @for (stat of stats(); track stat.label) {
+            <article>
+              <span>{{ stat.label }}</span>
+              <strong>{{ stat.value }}</strong>
+            </article>
+          }
+        </div>
       }
     </section>
 
-    <section class="content-grid">
-      <article class="panel job-panel">
-        <div class="panel-header">
-          <div>
-            <p class="eyebrow">Task marketplace</p>
-            <h2>Job queue</h2>
-          </div>
-          <div class="segmented">
-            @for (queue of ['All', 'Matching', 'Review']; track queue) {
-              <button
-                type="button"
-                [class.active]="selectedQueue() === queue"
-                (click)="setQueue(queue)"
-              >
-                {{ queue }}
-              </button>
-            }
-          </div>
-        </div>
-
-        <div class="table-list">
-          @for (job of filteredJobs(); track job.id) {
-            <div class="job-row">
-              <div>
-                <strong>{{ job.title }}</strong>
-                <span>{{ job.category }} • {{ job.area }}</span>
-              </div>
-              <span>{{ job.budget }}</span>
-              <span class="status" [class.review]="job.status === 'Needs review'">{{ job.status }}</span>
-              <span>{{ job.applicants }} applicants</span>
-            </div>
-          }
-        </div>
-      </article>
-
-      <article class="panel">
-        <div class="panel-header">
-          <div>
-            <p class="eyebrow">Worker trust</p>
-            <h2>Verification desk</h2>
-          </div>
-          <button class="icon-button" type="button" aria-label="Open verification filters">
-            <span>F</span>
-          </button>
-        </div>
-
-        <div class="worker-list">
-          @for (worker of workers(); track worker.id) {
-            <div class="worker-row">
-              <div class="avatar">{{ worker.name[0] }}</div>
-              <div>
-                <strong>{{ worker.name }}</strong>
-                <span>{{ worker.skill }} • {{ worker.jobs }} jobs • {{ worker.rating }}</span>
-              </div>
-              <small [class.pending]="worker.status === 'Reviewing'">{{ worker.status }}</small>
-            </div>
-          }
-        </div>
-      </article>
-
-      <article class="panel">
-        <div class="panel-header">
-          <div>
-            <p class="eyebrow">Demand mix</p>
-            <h2>Categories</h2>
-          </div>
-        </div>
-
-        <div class="category-list">
-          @for (category of categories(); track category.name) {
-            <div>
-              <span>{{ category.name }}</span>
-              <div class="bar"><span [style.width.%]="category.value"></span></div>
-              <strong>{{ category.value }}%</strong>
-            </div>
-          }
-        </div>
-      </article>
-
-      <article class="panel revenue-panel">
-        <div class="panel-header">
-          <div>
-            <p class="eyebrow">Business model</p>
-            <h2>Revenue streams</h2>
-          </div>
-        </div>
-
-        <div class="revenue-card">
-          <span>10%</span>
-          <div>
-            <strong>Task commission</strong>
-            <small>Core fee from each completed job.</small>
-          </div>
-        </div>
-        <div class="revenue-card">
-          <span>VIP</span>
-          <div>
-            <strong>Premium workers</strong>
-            <small>Priority listings, badges and visibility.</small>
-          </div>
-        </div>
-        <div class="revenue-card">
-          <span>AD</span>
-          <div>
-            <strong>In-app advertising</strong>
-            <small>Local services promoted to active users.</small>
-          </div>
-        </div>
-      </article>
+    <section class="cta-banner" id="get-started">
+      <div>
+        <h2>Ready to work or hire today?</h2>
+        <p>Log in to continue on web, or open the mobile app for map-first job discovery.</p>
+      </div>
+      <div class="hero-ctas">
+        <button class="primary-btn" type="button" (click)="openLogin()">Log in</button>
+        <a class="secondary-btn" href="#idea">Learn the idea</a>
+      </div>
     </section>
-  </section>
-</main>
+  </main>
+
+  <footer class="footer">
+    <div class="brand">
+      <span class="brand-mark">MF</span>
+      <strong>MchongoFasta</strong>
+    </div>
+    <p>Daily work, verified fast — for workers and employers across Tanzania.</p>
+  </footer>
+</div>
+
+@if (loginOpen()) {
+  <div class="modal-backdrop" (click)="closeLogin()" role="presentation"></div>
+  <div class="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-title">
+    <button class="close" type="button" (click)="closeLogin()" aria-label="Close">×</button>
+    <p class="eyebrow">Welcome back</p>
+    <h2 id="login-title">Log in to MchongoFasta</h2>
+    <p class="modal-copy">
+      Workers apply for jobs. Employers post tasks and hire verified talent.
+    </p>
+    <label>
+      Phone or email
+      <input type="text" placeholder="+255 7XX XXX XXX" />
+    </label>
+    <label>
+      Password
+      <input type="password" placeholder="••••••••" />
+    </label>
+    <button class="primary-btn full" type="button">Continue</button>
+    <p class="modal-note">Demo login UI — full auth connects to the live API next.</p>
+  </div>
+}

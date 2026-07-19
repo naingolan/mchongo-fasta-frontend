@@ -6,9 +6,10 @@ html,
 body {
   min-height: 100%;
   margin: 0;
+  scroll-behavior: smooth;
 }
 
 body {
-  background: #f2f4f7;
+  background: #f8fbff;
   font-family: "Plus Jakarta Sans", "Avenir Next", system-ui, sans-serif;
 }

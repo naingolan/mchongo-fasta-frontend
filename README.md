@@ -1,8 +1,8 @@
 # MchongoFasta Web
 
-Angular operations dashboard for jobs, verification, revenue, categories, and platform metrics.
+Public marketing landing page for the Tanzania daily-work marketplace.
 
-Uses the shared blue fintech theme (`#2B6AFF`, Plus Jakarta Sans) while keeping marketplace operations context.
+Blue/white gradient hero, product story, worker & employer paths, funding/revenue model, and a Log in modal. Live jobs preview pulls from the API when available.
 
 ## Local
 

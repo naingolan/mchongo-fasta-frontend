@@ -1,69 +1,74 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import {
-  ApiService,
-  DashboardCategory,
-  DashboardJob,
-  DashboardStat,
-  DashboardWorker,
-} from './api.service';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { ApiService, DashboardJob, DashboardStat } from './api.service';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
 export class App implements OnInit {
   private readonly api = inject(ApiService);
 
-  protected readonly darkMode = signal(false);
-  protected readonly selectedQueue = signal('All');
   protected readonly loading = signal(true);
-  protected readonly error = signal<string | null>(null);
-
-  protected readonly stats = signal<DashboardStat[]>([]);
   protected readonly jobs = signal<DashboardJob[]>([]);
-  protected readonly workers = signal<DashboardWorker[]>([]);
-  protected readonly categories = signal<DashboardCategory[]>([]);
+  protected readonly stats = signal<DashboardStat[]>([]);
+  protected readonly loginOpen = signal(false);
 
-  protected readonly filteredJobs = computed(() => {
-    const queue = this.selectedQueue();
-    const jobs = this.jobs();
-
-    if (queue === 'Matching') {
-      return jobs.filter((job) => job.status === 'Matching');
-    }
-
-    if (queue === 'Review') {
-      return jobs.filter((job) => job.status === 'Needs review');
-    }
-
-    return jobs;
-  });
+  protected readonly fallbackJobs: DashboardJob[] = [
+    {
+      id: '1',
+      title: 'House cleaning',
+      category: 'Domestic',
+      area: 'Mikocheni',
+      budget: 'TZS 35,000',
+      status: 'Matching',
+      applicants: 12,
+    },
+    {
+      id: '2',
+      title: 'Errand delivery',
+      category: 'Logistics',
+      area: 'Kariakoo',
+      budget: 'TZS 18,000',
+      status: 'Matching',
+      applicants: 9,
+    },
+    {
+      id: '3',
+      title: 'Office painting',
+      category: 'Technical',
+      area: 'Masaki',
+      budget: 'TZS 95,000',
+      status: 'In progress',
+      applicants: 4,
+    },
+  ];
 
   ngOnInit(): void {
     this.api.loadDashboard().subscribe({
       next: (data) => {
+        this.jobs.set(data.jobs.slice(0, 3));
         this.stats.set(data.stats);
-        this.jobs.set(data.jobs);
-        this.workers.set(data.workers);
-        this.categories.set(data.categories);
         this.loading.set(false);
       },
       error: () => {
-        this.error.set('Could not reach the MchongoFasta API. Check that the backend is running.');
+        this.jobs.set(this.fallbackJobs);
         this.loading.set(false);
       },
     });
   }
 
-  protected toggleTheme(): void {
-    this.darkMode.update((value) => !value);
+  protected openLogin(): void {
+    this.loginOpen.set(true);
   }
 
-  protected setQueue(queue: string): void {
-    this.selectedQueue.set(queue);
+  protected closeLogin(): void {
+    this.loginOpen.set(false);
+  }
+
+  protected previewJobs(): DashboardJob[] {
+    return this.jobs().length ? this.jobs() : this.fallbackJobs;
   }
 }
