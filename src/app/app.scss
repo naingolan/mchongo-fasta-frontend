@@ -1,7 +1,7 @@
 :host {
   display: block;
   min-height: 100vh;
-  font-family: "Lufga", "Avenir Next", Inter, system-ui, sans-serif;
+  font-family: "Plus Jakarta Sans", "Avenir Next", system-ui, sans-serif;
 }
 
 button,
@@ -10,15 +10,16 @@ input {
 }
 
 .shell {
-  --bg: #0d100e;
-  --surface: #151a17;
-  --surface-2: #1c231e;
-  --text: #f4f7ef;
-  --muted: #a7b0a8;
-  --line: rgba(255, 255, 255, 0.08);
-  --accent: #b8f55d;
-  --accent-2: #74d680;
-  --warn: #ffd166;
+  --bg: #f2f4f7;
+  --surface: #ffffff;
+  --surface-2: #eef2ff;
+  --text: #0f172a;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --accent: #2b6aff;
+  --accent-2: #1a2b56;
+  --warn: #f59e0b;
+  --shadow: 0 12px 32px rgba(15, 23, 42, 0.06);
   min-height: 100vh;
   display: grid;
   grid-template-columns: 280px minmax(0, 1fr);
@@ -26,20 +27,21 @@ input {
   color: var(--text);
 }
 
-.shell.light {
-  --bg: #f6f8f2;
-  --surface: #ffffff;
-  --surface-2: #edf2e6;
-  --text: #111512;
-  --muted: #63705f;
-  --line: rgba(17, 21, 18, 0.1);
+.shell:not(.light) {
+  --bg: #0b1220;
+  --surface: #151c2c;
+  --surface-2: #1c2740;
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --line: rgba(255, 255, 255, 0.08);
+  --shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
 }
 
 .sidebar {
   min-height: 100vh;
   padding: 24px;
   border-right: 1px solid var(--line);
-  background: color-mix(in srgb, var(--surface) 82%, var(--bg));
+  background: var(--surface);
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -68,22 +70,23 @@ input {
 .glyph {
   display: grid;
   place-items: center;
-  border-radius: 8px;
-  font-weight: 900;
+  border-radius: 14px;
+  font-weight: 800;
 }
 
 .brand-icon {
   width: 44px;
   height: 44px;
   background: var(--accent);
-  color: #111512;
+  color: #ffffff;
 }
 
 .brand strong,
 .panel h2,
 .hero h2,
 .topbar h1 {
-  letter-spacing: 0;
+  letter-spacing: -0.03em;
+  font-weight: 800;
 }
 
 .brand small,
@@ -107,29 +110,39 @@ nav {
 
 .nav-item {
   gap: 10px;
-  min-height: 44px;
+  min-height: 46px;
   padding: 0 12px;
   border: 1px solid transparent;
-  border-radius: 8px;
+  border-radius: 16px;
   background: transparent;
   color: var(--muted);
   cursor: pointer;
+  font-weight: 600;
 }
 
 .nav-item.active,
 .nav-item:hover,
 .segmented button.active {
-  color: var(--text);
-  background: var(--surface-2);
-  border-color: var(--line);
+  color: #ffffff;
+  background: var(--accent);
+  border-color: transparent;
+}
+
+.segmented button.active {
+  color: #ffffff;
 }
 
 .glyph {
   width: 28px;
   height: 28px;
-  color: #111512;
-  background: var(--accent);
+  color: #ffffff;
+  background: color-mix(in srgb, var(--accent) 80%, #000 10%);
   font-size: 0.8rem;
+}
+
+.nav-item.active .glyph,
+.nav-item:hover .glyph {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .funding,
@@ -138,8 +151,9 @@ nav {
 .hero,
 .phone-preview {
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 24px;
   background: var(--surface);
+  box-shadow: var(--shadow);
 }
 
 .funding {
@@ -151,13 +165,14 @@ nav {
   display: block;
   margin: 6px 0 12px;
   font-size: 1.5rem;
+  color: var(--accent);
 }
 
 .progress,
 .bar {
   overflow: hidden;
   height: 8px;
-  border-radius: 8px;
+  border-radius: 99px;
   background: var(--surface-2);
 }
 
@@ -165,7 +180,7 @@ nav {
   display: block;
   width: 64%;
   height: 100%;
-  background: var(--accent);
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
 }
 
 .workspace {
@@ -182,7 +197,9 @@ nav {
   margin: 0 0 6px;
   text-transform: uppercase;
   font-size: 0.78rem;
-  font-weight: 900;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--accent);
 }
 
 h1,
@@ -192,8 +209,8 @@ p {
 }
 
 .topbar h1 {
-  font-size: clamp(2rem, 5vw, 4.8rem);
-  line-height: 0.95;
+  font-size: clamp(2rem, 4.5vw, 3.6rem);
+  line-height: 1.05;
 }
 
 .top-actions {
@@ -202,14 +219,15 @@ p {
 
 .search {
   min-width: min(360px, 42vw);
-  height: 46px;
-  padding: 0 12px;
+  height: 48px;
+  padding: 0 14px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 99px;
   background: var(--surface);
   display: flex;
   align-items: center;
   gap: 10px;
+  box-shadow: var(--shadow);
 }
 
 .search input {
@@ -225,17 +243,18 @@ p {
 .secondary-button,
 .segmented button,
 .phone-preview button {
-  border-radius: 8px;
+  border-radius: 99px;
   cursor: pointer;
 }
 
 .icon-button {
-  width: 46px;
-  height: 46px;
+  width: 48px;
+  height: 48px;
   border: 1px solid var(--line);
   color: var(--text);
   background: var(--surface);
-  font-weight: 900;
+  font-weight: 800;
+  box-shadow: var(--shadow);
 }
 
 .hero {
@@ -245,6 +264,9 @@ p {
   grid-template-columns: minmax(0, 1.1fr) 340px;
   gap: 24px;
   align-items: stretch;
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--accent) 12%, transparent), transparent 40%),
+    var(--surface);
 }
 
 .hero-copy {
@@ -257,18 +279,18 @@ p {
   display: inline-flex;
   align-items: center;
   min-height: 30px;
-  padding: 0 10px;
-  border-radius: 8px;
-  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  padding: 0 12px;
+  border-radius: 99px;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
   color: var(--accent);
-  font-weight: 900;
+  font-weight: 800;
 }
 
 .hero h2 {
   max-width: 850px;
   margin-top: 18px;
-  font-size: clamp(2rem, 4vw, 4rem);
-  line-height: 1;
+  font-size: clamp(1.8rem, 3.4vw, 3.2rem);
+  line-height: 1.1;
 }
 
 .hero p {
@@ -286,44 +308,50 @@ p {
 .primary-button,
 .secondary-button,
 .phone-preview button {
-  min-height: 46px;
-  padding: 0 18px;
-  border: 1px solid var(--line);
-  font-weight: 900;
+  min-height: 48px;
+  padding: 0 22px;
+  border: 1px solid transparent;
+  font-weight: 800;
 }
 
 .primary-button,
 .phone-preview button {
   border-color: var(--accent);
   background: var(--accent);
-  color: #111512;
+  color: #ffffff;
 }
 
 .secondary-button {
   color: var(--text);
   background: var(--surface-2);
+  border-color: var(--line);
 }
 
 .phone-preview {
-  padding: 14px;
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--surface-2) 92%, transparent), var(--surface)),
-    var(--surface);
+  padding: 16px;
+  background: linear-gradient(160deg, var(--accent), var(--accent-2));
+  border: 0;
+  color: #ffffff;
+}
+
+.phone-preview small,
+.phone-card span {
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .phone-bar {
   width: 70px;
   height: 5px;
   margin: 0 auto 18px;
-  border-radius: 8px;
-  background: var(--line);
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.35);
 }
 
 .phone-card,
 .phone-row,
 .scan-box {
-  border-radius: 8px;
-  background: var(--surface-2);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .phone-card {
@@ -331,13 +359,14 @@ p {
 }
 
 .phone-card.accent {
-  border: 1px solid color-mix(in srgb, var(--accent) 60%, transparent);
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .phone-card strong {
   display: block;
   margin: 6px 0;
   font-size: 1.35rem;
+  color: #ffffff;
 }
 
 .scan-box {
@@ -350,8 +379,8 @@ p {
 }
 
 .scan-box span {
-  border: 3px solid var(--accent);
-  border-radius: 8px;
+  border: 3px solid rgba(255, 255, 255, 0.75);
+  border-radius: 12px;
 }
 
 .phone-row {
@@ -359,19 +388,24 @@ p {
   padding: 12px;
   margin-bottom: 10px;
   display: flex;
+  color: #ffffff;
 }
 
 .phone-preview button {
   width: 100%;
+  background: #ffffff;
+  color: var(--accent);
+  border-color: #ffffff;
 }
 
 .status-banner {
   margin: 0 0 12px;
   padding: 12px 16px;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--surface-2);
+  border-radius: 18px;
+  background: var(--surface);
   color: var(--muted);
+  box-shadow: var(--shadow);
 }
 
 .status-banner.error {
@@ -394,7 +428,8 @@ p {
 .stats-grid strong {
   display: block;
   margin: 8px 0;
-  font-size: clamp(1.4rem, 3vw, 2.25rem);
+  font-size: clamp(1.4rem, 3vw, 2.1rem);
+  color: var(--accent);
 }
 
 .content-grid {
@@ -421,16 +456,17 @@ p {
   display: flex;
   gap: 4px;
   padding: 4px;
-  border-radius: 8px;
+  border-radius: 99px;
   background: var(--surface-2);
 }
 
 .segmented button {
   min-height: 34px;
-  padding: 0 12px;
+  padding: 0 14px;
   border: 0;
   background: transparent;
   color: var(--muted);
+  font-weight: 700;
 }
 
 .table-list,
@@ -445,7 +481,7 @@ p {
   grid-template-columns: minmax(190px, 1fr) 120px 120px 110px;
   gap: 14px;
   padding: 14px;
-  border-radius: 8px;
+  border-radius: 18px;
   background: var(--surface-2);
 }
 
@@ -457,14 +493,14 @@ p {
 
 .status.review,
 .worker-row small.pending {
-  color: #111512;
+  color: #0f172a;
   background: var(--warn);
 }
 
 .worker-row {
   gap: 12px;
   padding: 12px;
-  border-radius: 8px;
+  border-radius: 18px;
   background: var(--surface-2);
 }
 
@@ -472,16 +508,16 @@ p {
   width: 40px;
   height: 40px;
   background: var(--accent);
-  color: #111512;
+  color: #ffffff;
 }
 
 .worker-row small {
   margin-left: auto;
-  padding: 6px 9px;
-  border-radius: 8px;
-  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  padding: 6px 10px;
+  border-radius: 99px;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
   color: var(--accent);
-  font-weight: 900;
+  font-weight: 800;
 }
 
 .category-list > div {
@@ -505,7 +541,7 @@ p {
 .revenue-card {
   gap: 12px;
   padding: 12px;
-  border-radius: 8px;
+  border-radius: 18px;
   background: var(--surface-2);
 }
 
@@ -514,10 +550,10 @@ p {
   height: 42px;
   display: grid;
   place-items: center;
-  border-radius: 8px;
+  border-radius: 14px;
   background: var(--accent);
-  color: #111512;
-  font-weight: 900;
+  color: #ffffff;
+  font-weight: 800;
 }
 
 @media (max-width: 1120px) {

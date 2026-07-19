@@ -18,7 +18,7 @@ import {
 export class App implements OnInit {
   private readonly api = inject(ApiService);
 
-  protected readonly darkMode = signal(true);
+  protected readonly darkMode = signal(false);
   protected readonly selectedQueue = signal('All');
   protected readonly loading = signal(true);
   protected readonly error = signal<string | null>(null);
