@@ -118,44 +118,139 @@ main,
   gap: 10px;
 }
 
-.lang-switcher {
-  display: inline-flex;
-  align-items: center;
-  padding: 3px;
-  background: rgba(43, 106, 255, 0.08);
-  border: 1px solid rgba(43, 106, 255, 0.12);
-  border-radius: 999px;
-  gap: 2px;
+.lang-dropdown-wrapper {
+  position: relative;
+  display: inline-block;
 }
 
-.lang-btn {
+.lang-trigger-btn {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 6px 12px;
+  gap: 8px;
+  height: 42px;
+  padding: 0 14px;
   border-radius: 999px;
-  border: 0;
-  background: transparent;
-  color: #64748b;
-  font-size: 0.8rem;
+  border: 1px solid rgba(43, 106, 255, 0.16);
+  background: rgba(255, 255, 255, 0.9);
+  color: #0f172a;
+  font-size: 0.88rem;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  backdrop-filter: blur(8px);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 
-  .flag {
-    font-size: 0.95rem;
+  .lang-flag {
+    font-size: 1.1rem;
     line-height: 1;
   }
 
-  &:hover {
-    color: #2b6aff;
+  .lang-label {
+    font-weight: 700;
+    color: #1e293b;
   }
 
+  .lang-chevron {
+    color: #64748b;
+    transition: transform 0.2s ease;
+
+    &.rotated {
+      transform: rotate(180deg);
+      color: #2b6aff;
+    }
+  }
+
+  &:hover,
   &.active {
+    border-color: #2b6aff;
     background: #ffffff;
+    box-shadow: 0 4px 16px rgba(43, 106, 255, 0.12);
+  }
+}
+
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 190px;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 6px;
+  border: 1px solid rgba(43, 106, 255, 0.12);
+  box-shadow:
+    0 16px 36px rgba(15, 23, 42, 0.12),
+    0 2px 6px rgba(15, 23, 42, 0.04);
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  animation: menuFadeIn 180ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes menuFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.lang-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+
+  .opt-flag {
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+
+  .opt-info {
+    flex: 1;
+
+    strong {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    small {
+      display: block;
+      font-size: 0.72rem;
+      color: #64748b;
+      margin-top: 1px;
+    }
+  }
+
+  .opt-check {
     color: #2b6aff;
-    box-shadow: 0 2px 8px rgba(43, 106, 255, 0.15);
-    font-weight: 800;
+    font-weight: 900;
+    font-size: 0.95rem;
+    margin-left: auto;
+  }
+
+  &:hover {
+    background: #f1f5f9;
+  }
+
+  &.selected {
+    background: #eff6ff;
+
+    .opt-info strong {
+      color: #2b6aff;
+    }
   }
 }
 
@@ -453,33 +548,56 @@ main,
   margin-right: 8px;
 }
 
-.soft ol {
+.soft ol.step-list {
   display: grid;
-  gap: 12px;
-  margin-top: 14px;
-  counter-reset: step;
+  gap: 16px;
+  margin-top: 16px;
+  padding: 0;
+  list-style: none;
 }
 
-.soft ol li {
-  counter-increment: step;
-  padding-left: 36px;
-  position: relative;
+.soft ol.step-list li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0;
+  position: static;
+  color: #334155;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  font-weight: 600;
+
+  &::before {
+    display: none;
+  }
 }
 
-.soft ol li::before {
-  content: counter(step);
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
+.soft .step-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
   display: grid;
   place-items: center;
-  background: #eef2ff;
-  color: #2b6aff;
-  font-size: 0.75rem;
-  font-weight: 800;
+  border-radius: 14px;
+  background: rgba(43, 106, 255, 0.08);
+  border: 1px solid rgba(43, 106, 255, 0.12);
+  transition: all 0.2s ease;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+  }
+}
+
+.soft ol.step-list li:hover .step-icon {
+  transform: translateY(-2px) scale(1.05);
+  background: rgba(43, 106, 255, 0.14);
+  box-shadow: 0 4px 12px rgba(43, 106, 255, 0.16);
+}
+
+.soft .step-text {
+  flex: 1;
 }
 
 .model-grid {

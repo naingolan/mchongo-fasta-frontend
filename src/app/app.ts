@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, ElementRef, HostListener, inject, OnInit, signal } from '@angular/core';
 import { ApiService, DashboardJob, DashboardStat } from './api.service';
 import { NetworkParticles } from './network-particles';
 import {
@@ -18,8 +18,10 @@ import {
 })
 export class App implements OnInit {
   private readonly api = inject(ApiService);
+  private readonly elementRef = inject(ElementRef);
 
   protected readonly currentLang = signal<Language>('sw');
+  protected readonly langMenuOpen = signal(false);
   protected readonly loading = signal(true);
   protected readonly jobs = signal<DashboardJob[]>([]);
   protected readonly stats = signal<DashboardStat[]>([]);
@@ -57,6 +59,22 @@ export class App implements OnInit {
     },
   ];
 
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    if (this.langMenuOpen()) {
+      const target = event.target as HTMLElement | null;
+      if (!this.elementRef.nativeElement.querySelector('.lang-dropdown-wrapper')?.contains(target)) {
+        this.langMenuOpen.set(false);
+      }
+    }
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    this.langMenuOpen.set(false);
+    this.loginOpen.set(false);
+  }
+
   ngOnInit(): void {
     const savedLang = typeof localStorage !== 'undefined' ? localStorage.getItem('mf_lang') : null;
     if (savedLang === 'en' || savedLang === 'sw') {
@@ -76,8 +94,14 @@ export class App implements OnInit {
     });
   }
 
-  protected setLanguage(lang: Language): void {
+  protected toggleLangMenu(event: MouseEvent): void {
+    event.stopPropagation();
+    this.langMenuOpen.update((open) => !open);
+  }
+
+  protected selectLanguage(lang: Language): void {
     this.currentLang.set(lang);
+    this.langMenuOpen.set(false);
     if (typeof localStorage !== 'undefined') {
       localStorage.setItem('mf_lang', lang);
     }
