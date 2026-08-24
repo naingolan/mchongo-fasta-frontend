@@ -2,7 +2,6 @@ export type Language = 'en' | 'sw';
 
 export interface Translations {
   nav: {
-    idea: string;
     workers: string;
     employers: string;
     model: string;
@@ -32,19 +31,6 @@ export interface Translations {
     activity2Desc: string;
     activity3Title: string;
     activity3Desc: string;
-  };
-  idea: {
-    eyebrow: string;
-    title: string;
-    desc: string;
-    step1Title: string;
-    step1Desc: string;
-    step2Title: string;
-    step2Desc: string;
-    step3Title: string;
-    step3Desc: string;
-    step4Title: string;
-    step4Desc: string;
   };
   workers: {
     eyebrow: string;
@@ -98,7 +84,7 @@ export interface Translations {
     title: string;
     desc: string;
     login: string;
-    learnIdea: string;
+    findWork: string;
   };
   footer: {
     desc: string;
@@ -118,7 +104,6 @@ export interface Translations {
 export const TRANSLATIONS: Record<Language, Translations> = {
   en: {
     nav: {
-      idea: 'The idea',
       workers: 'Workers',
       employers: 'Employers',
       model: 'Business',
@@ -148,19 +133,6 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       activity2Desc: 'Kariakoo delivery',
       activity3Title: 'ID verified',
       activity3Desc: 'NIDA check passed',
-    },
-    idea: {
-      eyebrow: 'The idea',
-      title: 'Daily work should be trusted, local, and instant.',
-      desc: 'Too many short-term jobs in Dar still run on WhatsApp forwards and unverified strangers. MchongoFasta builds a marketplace where workers prove identity and skill, employers post clearly, and matching happens on a map — then payment stays in-app.',
-      step1Title: 'Browse on a map',
-      step1Desc: 'See open mchongo around you first, then switch to a clean list when you prefer.',
-      step2Title: 'Two clear sides',
-      step2Desc: 'Guests find jobs by default. Employers sign in separately to hire. Applying requires login.',
-      step3Title: 'Trust before work',
-      step3Desc: 'National ID, address checks, ratings, and references protect both sides of every task.',
-      step4Title: 'Pay with confidence',
-      step4Desc: 'Commissions, premium visibility, and in-app ads fund the platform while workers get paid fast.',
     },
     workers: {
       eyebrow: 'For workers',
@@ -214,7 +186,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       title: 'Ready to work or hire today?',
       desc: 'Log in to continue on web, or open the mobile app for map-first job discovery.',
       login: 'Log in',
-      learnIdea: 'Learn the idea',
+      findWork: 'Find work',
     },
     footer: {
       desc: 'Daily work, verified fast — for workers and employers across Tanzania.',
@@ -232,7 +204,6 @@ export const TRANSLATIONS: Record<Language, Translations> = {
   },
   sw: {
     nav: {
-      idea: 'Wazo letu',
       workers: 'Wafanyakazi',
       employers: 'Waajiri',
       model: 'Biashara',
@@ -262,19 +233,6 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       activity2Desc: 'Usafirishaji Kariakoo',
       activity3Title: 'Kitambulisho kimethibitishwa',
       activity3Desc: 'Uhakiki wa NIDA umekamilika',
-    },
-    idea: {
-      eyebrow: 'Wazo letu',
-      title: 'Kazi za kila siku zinapaswa kuwa za kuaminika, za mtaani, na za papo hapo.',
-      desc: 'Kazi nyingi za muda mfupi Dar es Salaam bado zinategemea magroup ya WhatsApp na watu wasiojulikana. MchongoFasta inaleta soko ambapo wafanyakazi wanathibitisha vitambulisho na ujuzi, waajiri wanatuma kazi wazi, na kuunganishwa kunafanyika kwenye ramani — kisha malipo yanafanyika ndani ya mfumo.',
-      step1Title: 'Tazama kwenye ramani',
-      step1Desc: 'Ona michongo iliyo karibu nawe kwanza, kisha badili kwenda orodha safi unapotaka.',
-      step2Title: 'Pande mbili zilizo wazi',
-      step2Desc: 'Wageni wanaona kazi moja kwa moja. Waajiri huingia kando kuajiri. Kuomba kazi kunahitaji kuingia.',
-      step3Title: 'Uaminifu kabla ya kazi',
-      step3Desc: 'Kitambulisho cha NIDA, uthibitisho wa makazi, maoni na tathmini hulinda pande zote mbili.',
-      step4Title: 'Lipa kwa uhakika',
-      step4Desc: 'Makato madogo, mwonekano wa VIP, na matangazo huwezesha mfumo wakati wafanyakazi wanalipwa haraka.',
     },
     workers: {
       eyebrow: 'Kwa wafanyakazi',
@@ -328,7 +286,7 @@ export const TRANSLATIONS: Record<Language, Translations> = {
       title: 'Uko tayari kufanya kazi au kuajiri leo?',
       desc: 'Ingia kuendelea kwenye wavuti, au tumia app ya simu kupata kazi kwenye ramani.',
       login: 'Ingia',
-      learnIdea: 'Fahamu wazo letu',
+      findWork: 'Tafuta kazi',
     },
     footer: {
       desc: 'Kazi za kila siku, uthibitisho wa haraka — kwa wafanyakazi na waajiri kote Tanzania.',

@@ -410,13 +410,6 @@ main,
   margin-bottom: 12px;
 }
 
-.idea-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.idea-grid article,
 .soft {
   padding: 20px;
   border-radius: 22px;
@@ -425,16 +418,6 @@ main,
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.05);
 }
 
-.idea-grid strong {
-  color: #2b6aff;
-  font-size: 1.2rem;
-}
-
-.idea-grid h3 {
-  margin: 10px 0 8px;
-}
-
-.idea-grid p,
 .split-section p,
 .checklist li,
 .soft ol li {
@@ -694,7 +677,6 @@ main,
   }
 
   .preview-grid,
-  .idea-grid,
   .split-section,
   .split-section.reverse,
   .model-grid,

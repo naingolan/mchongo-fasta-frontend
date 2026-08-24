@@ -9,7 +9,6 @@
     </a>
 
     <nav aria-label="Primary">
-      <a href="#idea">{{ t().nav.idea }}</a>
       <a href="#workers">{{ t().nav.workers }}</a>
       <a href="#employers">{{ t().nav.employers }}</a>
       <a href="#model">{{ t().nav.model }}</a>
@@ -124,39 +123,6 @@
       </div>
     </section>
 
-    <section class="section" id="idea">
-      <div class="section-copy">
-        <p class="eyebrow">{{ t().idea.eyebrow }}</p>
-        <h2>{{ t().idea.title }}</h2>
-        <p>
-          {{ t().idea.desc }}
-        </p>
-      </div>
-
-      <div class="idea-grid">
-        <article>
-          <strong>01</strong>
-          <h3>{{ t().idea.step1Title }}</h3>
-          <p>{{ t().idea.step1Desc }}</p>
-        </article>
-        <article>
-          <strong>02</strong>
-          <h3>{{ t().idea.step2Title }}</h3>
-          <p>{{ t().idea.step2Desc }}</p>
-        </article>
-        <article>
-          <strong>03</strong>
-          <h3>{{ t().idea.step3Title }}</h3>
-          <p>{{ t().idea.step3Desc }}</p>
-        </article>
-        <article>
-          <strong>04</strong>
-          <h3>{{ t().idea.step4Title }}</h3>
-          <p>{{ t().idea.step4Desc }}</p>
-        </article>
-      </div>
-    </section>
-
     <section class="split-section" id="workers">
       <div>
         <p class="eyebrow">{{ t().workers.eyebrow }}</p>
@@ -263,7 +229,7 @@
       </div>
       <div class="hero-ctas">
         <button class="primary-btn" type="button" (click)="openLogin()">{{ t().cta.login }}</button>
-        <a class="secondary-btn" href="#idea">{{ t().cta.learnIdea }}</a>
+        <a class="secondary-btn" href="#workers">{{ t().cta.findWork }}</a>
       </div>
     </section>
   </main>
