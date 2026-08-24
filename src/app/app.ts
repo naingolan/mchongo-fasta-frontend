@@ -1,20 +1,31 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ApiService, DashboardJob, DashboardStat } from './api.service';
+import { NetworkParticles } from './network-particles';
+import {
+  CATEGORY_TRANSLATIONS,
+  JOB_TITLE_TRANSLATIONS,
+  Language,
+  STATUS_TRANSLATIONS,
+  TRANSLATIONS,
+} from './translations';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule],
+  imports: [CommonModule, NetworkParticles],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
 export class App implements OnInit {
   private readonly api = inject(ApiService);
 
+  protected readonly currentLang = signal<Language>('sw');
   protected readonly loading = signal(true);
   protected readonly jobs = signal<DashboardJob[]>([]);
   protected readonly stats = signal<DashboardStat[]>([]);
   protected readonly loginOpen = signal(false);
+
+  protected readonly t = computed(() => TRANSLATIONS[this.currentLang()]);
 
   protected readonly fallbackJobs: DashboardJob[] = [
     {
@@ -47,6 +58,11 @@ export class App implements OnInit {
   ];
 
   ngOnInit(): void {
+    const savedLang = typeof localStorage !== 'undefined' ? localStorage.getItem('mf_lang') : null;
+    if (savedLang === 'en' || savedLang === 'sw') {
+      this.currentLang.set(savedLang);
+    }
+
     this.api.loadDashboard().subscribe({
       next: (data) => {
         this.jobs.set(data.jobs.slice(0, 3));
@@ -60,6 +76,13 @@ export class App implements OnInit {
     });
   }
 
+  protected setLanguage(lang: Language): void {
+    this.currentLang.set(lang);
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('mf_lang', lang);
+    }
+  }
+
   protected openLogin(): void {
     this.loginOpen.set(true);
   }
@@ -70,5 +93,30 @@ export class App implements OnInit {
 
   protected previewJobs(): DashboardJob[] {
     return this.jobs().length ? this.jobs() : this.fallbackJobs;
+  }
+
+  protected getJobTitle(title: string): string {
+    const lang = this.currentLang();
+    return JOB_TITLE_TRANSLATIONS[lang]?.[title] || title;
+  }
+
+  protected getCategory(category: string): string {
+    const lang = this.currentLang();
+    return CATEGORY_TRANSLATIONS[lang]?.[category] || category;
+  }
+
+  protected getStatus(status: string): string {
+    const lang = this.currentLang();
+    return STATUS_TRANSLATIONS[lang]?.[status] || status;
+  }
+
+  protected getStatLabel(rawLabel: string): string {
+    const dict = this.t().stats;
+    const lower = rawLabel.toLowerCase();
+    if (lower.includes('active') || lower.includes('kazi')) return dict.activeJobs;
+    if (lower.includes('worker') || lower.includes('verified')) return dict.verifiedWorkers;
+    if (lower.includes('rate') || lower.includes('match')) return dict.matchingRate;
+    if (lower.includes('volume') || lower.includes('revenue') || lower.includes('daily')) return dict.dailyVolume;
+    return rawLabel;
   }
 }

@@ -1,4 +1,5 @@
 <div class="page">
+  <app-network-particles />
   <div class="glow" aria-hidden="true"></div>
 
   <header class="nav">
@@ -8,43 +9,64 @@
     </a>
 
     <nav aria-label="Primary">
-      <a href="#idea">The idea</a>
-      <a href="#workers">Workers</a>
-      <a href="#employers">Employers</a>
-      <a href="#model">Business</a>
+      <a href="#idea">{{ t().nav.idea }}</a>
+      <a href="#workers">{{ t().nav.workers }}</a>
+      <a href="#employers">{{ t().nav.employers }}</a>
+      <a href="#model">{{ t().nav.model }}</a>
     </nav>
 
     <div class="nav-actions">
-      <button class="ghost-btn" type="button" (click)="openLogin()">Log in</button>
-      <a class="primary-btn" href="#get-started">Get started</a>
+      <!-- Language Switcher -->
+      <div class="lang-switcher" role="group" aria-label="Language Selector">
+        <button
+          type="button"
+          class="lang-btn"
+          [class.active]="currentLang() === 'sw'"
+          (click)="setLanguage('sw')"
+          title="Kiswahili"
+        >
+          <span class="flag">🇹🇿</span> SW
+        </button>
+        <button
+          type="button"
+          class="lang-btn"
+          [class.active]="currentLang() === 'en'"
+          (click)="setLanguage('en')"
+          title="English"
+        >
+          <span class="flag">🇬🇧</span> EN
+        </button>
+      </div>
+
+      <button class="ghost-btn" type="button" (click)="openLogin()">{{ t().nav.login }}</button>
+      <a class="primary-btn" href="#get-started">{{ t().nav.getStarted }}</a>
     </div>
   </header>
 
   <main id="top">
     <section class="hero">
-      <p class="eyebrow">Tanzania daily-work marketplace</p>
-      <h1>Where verified workers meet real jobs — fast.</h1>
+      <p class="eyebrow">{{ t().hero.eyebrow }}</p>
+      <h1>{{ t().hero.title }}</h1>
       <p class="lede">
-        MchongoFasta connects households and SMEs to vetted short-term help for cleaning,
-        delivery, care, and repairs — with map discovery, trust checks, and secure payouts.
+        {{ t().hero.lede }}
       </p>
       <div class="hero-ctas">
-        <a class="primary-btn" href="#get-started">Find work</a>
-        <a class="secondary-btn" href="#employers">Hire talent</a>
+        <a class="primary-btn" href="#get-started">{{ t().hero.findWork }}</a>
+        <a class="secondary-btn" href="#employers">{{ t().hero.hireTalent }}</a>
       </div>
 
       <div class="preview-grid" aria-label="Product previews">
         <article class="glass-card">
           <div class="card-head">
-            <h2>Latest jobs near you</h2>
-            <span>{{ loading() ? '…' : 'Live' }}</span>
+            <h2>{{ t().previews.latestJobs }}</h2>
+            <span>{{ loading() ? t().previews.loading : t().previews.live }}</span>
           </div>
           <ul class="job-feed">
             @for (job of previewJobs(); track job.id) {
               <li>
                 <div>
-                  <strong>{{ job.title }}</strong>
-                  <small>{{ job.category }} • {{ job.area }}</small>
+                  <strong>{{ getJobTitle(job.title) }}</strong>
+                  <small>{{ getCategory(job.category) }} • {{ job.area }}</small>
                 </div>
                 <em>{{ job.budget }}</em>
               </li>
@@ -53,47 +75,47 @@
         </article>
 
         <article class="glass-card center-card">
-          <h2>Match &amp; get paid</h2>
+          <h2>{{ t().previews.matchGetPaid }}</h2>
           <div class="gauge" aria-hidden="true">
             <div class="gauge-arc"></div>
             <div class="gauge-core">
               <strong>TZS 128K</strong>
-              <small>wallet ready</small>
+              <small>{{ t().previews.walletReady }}</small>
             </div>
           </div>
-          <p>Apply from the map, complete the mchongo, and withdraw to M-Pesa.</p>
+          <p>{{ t().previews.matchGetPaidDesc }}</p>
           <button class="primary-btn full" type="button" (click)="openLogin()">
-            Open worker app
+            {{ t().previews.openWorkerApp }}
           </button>
         </article>
 
         <article class="glass-card">
           <div class="card-head">
-            <h2>Recent activity</h2>
-            <span>Today</span>
+            <h2>{{ t().previews.recentActivity }}</h2>
+            <span>{{ t().previews.today }}</span>
           </div>
           <ul class="activity-feed">
             <li>
               <span class="dot">A</span>
               <div>
-                <strong>Asha applied</strong>
-                <small>Cleaning • 12 min ago</small>
+                <strong>{{ t().previews.activity1Title }}</strong>
+                <small>{{ t().previews.activity1Desc }}</small>
               </div>
               <em>+1</em>
             </li>
             <li>
               <span class="dot">J</span>
               <div>
-                <strong>Job matched</strong>
-                <small>Kariakoo delivery</small>
+                <strong>{{ t().previews.activity2Title }}</strong>
+                <small>{{ t().previews.activity2Desc }}</small>
               </div>
               <em>TZS 18K</em>
             </li>
             <li>
               <span class="dot">V</span>
               <div>
-                <strong>ID verified</strong>
-                <small>NIDA check passed</small>
+                <strong>{{ t().previews.activity3Title }}</strong>
+                <small>{{ t().previews.activity3Desc }}</small>
               </div>
               <em>OK</em>
             </li>
@@ -104,121 +126,119 @@
 
     <section class="section" id="idea">
       <div class="section-copy">
-        <p class="eyebrow">The idea</p>
-        <h2>Daily work should be trusted, local, and instant.</h2>
+        <p class="eyebrow">{{ t().idea.eyebrow }}</p>
+        <h2>{{ t().idea.title }}</h2>
         <p>
-          Too many short-term jobs in Dar still run on WhatsApp forwards and unverified strangers.
-          MchongoFasta builds a marketplace where workers prove identity and skill, employers post
-          clearly, and matching happens on a map — then payment stays in-app.
+          {{ t().idea.desc }}
         </p>
       </div>
 
       <div class="idea-grid">
         <article>
           <strong>01</strong>
-          <h3>Browse on a map</h3>
-          <p>See open mchongo around you first, then switch to a clean list when you prefer.</p>
+          <h3>{{ t().idea.step1Title }}</h3>
+          <p>{{ t().idea.step1Desc }}</p>
         </article>
         <article>
           <strong>02</strong>
-          <h3>Two clear sides</h3>
-          <p>Guests find jobs by default. Employers sign in separately to hire. Applying requires login.</p>
+          <h3>{{ t().idea.step2Title }}</h3>
+          <p>{{ t().idea.step2Desc }}</p>
         </article>
         <article>
           <strong>03</strong>
-          <h3>Trust before work</h3>
-          <p>National ID, address checks, ratings, and references protect both sides of every task.</p>
+          <h3>{{ t().idea.step3Title }}</h3>
+          <p>{{ t().idea.step3Desc }}</p>
         </article>
         <article>
           <strong>04</strong>
-          <h3>Pay with confidence</h3>
-          <p>Commissions, premium visibility, and in-app ads fund the platform while workers get paid fast.</p>
+          <h3>{{ t().idea.step4Title }}</h3>
+          <p>{{ t().idea.step4Desc }}</p>
         </article>
       </div>
     </section>
 
     <section class="split-section" id="workers">
       <div>
-        <p class="eyebrow">For workers</p>
-        <h2>Find mchongo. Prove trust. Get paid.</h2>
+        <p class="eyebrow">{{ t().workers.eyebrow }}</p>
+        <h2>{{ t().workers.title }}</h2>
         <ul class="checklist">
-          <li>Discover nearby jobs on map or list</li>
-          <li>Sign in only when you are ready to apply</li>
-          <li>Complete verification for better matches</li>
-          <li>Track earnings and withdraw securely</li>
+          <li>{{ t().workers.check1 }}</li>
+          <li>{{ t().workers.check2 }}</li>
+          <li>{{ t().workers.check3 }}</li>
+          <li>{{ t().workers.check4 }}</li>
         </ul>
-        <button class="primary-btn" type="button" (click)="openLogin()">Worker log in</button>
+        <button class="primary-btn" type="button" (click)="openLogin()">{{ t().workers.loginBtn }}</button>
       </div>
       <aside class="glass-card soft">
-        <h3>Worker journey</h3>
+        <h3>{{ t().workers.journeyTitle }}</h3>
         <ol>
-          <li>Browse open tasks as a guest</li>
-          <li>Tap a job → sign in to apply</li>
-          <li>Finish verification for priority matching</li>
-          <li>Complete work and receive payout</li>
+          <li>{{ t().workers.step1 }}</li>
+          <li>{{ t().workers.step2 }}</li>
+          <li>{{ t().workers.step3 }}</li>
+          <li>{{ t().workers.step4 }}</li>
         </ol>
       </aside>
     </section>
 
     <section class="split-section reverse" id="employers">
       <div>
-        <p class="eyebrow">For employers</p>
-        <h2>Hire reliable help in minutes.</h2>
+        <p class="eyebrow">{{ t().employers.eyebrow }}</p>
+        <h2>{{ t().employers.title }}</h2>
         <ul class="checklist">
-          <li>Post cleaning, logistics, care, or technical tasks</li>
-          <li>Review verified applicants with ratings</li>
-          <li>Track progress and release payment</li>
-          <li>Build a trusted shortlist for next time</li>
+          <li>{{ t().employers.check1 }}</li>
+          <li>{{ t().employers.check2 }}</li>
+          <li>{{ t().employers.check3 }}</li>
+          <li>{{ t().employers.check4 }}</li>
         </ul>
-        <button class="primary-btn" type="button" (click)="openLogin()">Employer log in</button>
+        <button class="primary-btn" type="button" (click)="openLogin()">{{ t().employers.loginBtn }}</button>
       </div>
       <aside class="glass-card soft">
-        <h3>Employer journey</h3>
+        <h3>{{ t().employers.journeyTitle }}</h3>
         <ol>
-          <li>Open the employer invite from the app</li>
-          <li>Sign in and set up your hiring profile</li>
-          <li>Post a task with budget and timing</li>
-          <li>Match, confirm, and pay in one flow</li>
+          <li>{{ t().employers.step1 }}</li>
+          <li>{{ t().employers.step2 }}</li>
+          <li>{{ t().employers.step3 }}</li>
+          <li>{{ t().employers.step4 }}</li>
         </ol>
       </aside>
     </section>
 
     <section class="section model-section" id="model">
       <div class="section-copy">
-        <p class="eyebrow">Business model</p>
-        <h2>Built to scale across Tanzania.</h2>
+        <p class="eyebrow">{{ t().model.eyebrow }}</p>
+        <h2>{{ t().model.title }}</h2>
       </div>
 
       <div class="model-grid">
         <article class="funding-card">
-          <span>Funding target</span>
-          <strong>TZS 300M</strong>
+          <span>{{ t().model.fundingTarget }}</span>
+          <strong>{{ t().model.fundingTargetAmount }}</strong>
           <div class="progress"><span></span></div>
-          <p>App, onboarding, marketing, staff training and regional rollout.</p>
+          <p>{{ t().model.fundingDesc }}</p>
         </article>
 
         <article class="revenue-card-panel">
-          <p class="eyebrow">Business model</p>
-          <h3>Revenue streams</h3>
+          <p class="eyebrow">{{ t().model.eyebrow }}</p>
+          <h3>{{ t().model.revenueStreams }}</h3>
           <div class="revenue-row">
             <span>10%</span>
             <div>
-              <strong>Task commission</strong>
-              <small>Core fee from each completed job.</small>
+              <strong>{{ t().model.stream1Title }}</strong>
+              <small>{{ t().model.stream1Desc }}</small>
             </div>
           </div>
           <div class="revenue-row">
             <span>VIP</span>
             <div>
-              <strong>Premium workers</strong>
-              <small>Priority listings, badges and visibility.</small>
+              <strong>{{ t().model.stream2Title }}</strong>
+              <small>{{ t().model.stream2Desc }}</small>
             </div>
           </div>
           <div class="revenue-row">
             <span>AD</span>
             <div>
-              <strong>In-app advertising</strong>
-              <small>Local services promoted to active users.</small>
+              <strong>{{ t().model.stream3Title }}</strong>
+              <small>{{ t().model.stream3Desc }}</small>
             </div>
           </div>
         </article>
@@ -228,7 +248,7 @@
         <div class="stats-strip" aria-label="Platform metrics">
           @for (stat of stats(); track stat.label) {
             <article>
-              <span>{{ stat.label }}</span>
+              <span>{{ getStatLabel(stat.label) }}</span>
               <strong>{{ stat.value }}</strong>
             </article>
           }
@@ -238,12 +258,12 @@
 
     <section class="cta-banner" id="get-started">
       <div>
-        <h2>Ready to work or hire today?</h2>
-        <p>Log in to continue on web, or open the mobile app for map-first job discovery.</p>
+        <h2>{{ t().cta.title }}</h2>
+        <p>{{ t().cta.desc }}</p>
       </div>
       <div class="hero-ctas">
-        <button class="primary-btn" type="button" (click)="openLogin()">Log in</button>
-        <a class="secondary-btn" href="#idea">Learn the idea</a>
+        <button class="primary-btn" type="button" (click)="openLogin()">{{ t().cta.login }}</button>
+        <a class="secondary-btn" href="#idea">{{ t().cta.learnIdea }}</a>
       </div>
     </section>
   </main>
@@ -253,28 +273,28 @@
       <span class="brand-mark">MF</span>
       <strong>MchongoFasta</strong>
     </div>
-    <p>Daily work, verified fast — for workers and employers across Tanzania.</p>
+    <p>{{ t().footer.desc }}</p>
   </footer>
 </div>
 
 @if (loginOpen()) {
   <div class="modal-backdrop" (click)="closeLogin()" role="presentation"></div>
   <div class="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-title">
-    <button class="close" type="button" (click)="closeLogin()" aria-label="Close">×</button>
-    <p class="eyebrow">Welcome back</p>
-    <h2 id="login-title">Log in to MchongoFasta</h2>
+    <button class="close" type="button" (click)="closeLogin()" [attr.aria-label]="t().loginModal.closeLabel">×</button>
+    <p class="eyebrow">{{ t().loginModal.welcomeBack }}</p>
+    <h2 id="login-title">{{ t().loginModal.title }}</h2>
     <p class="modal-copy">
-      Workers apply for jobs. Employers post tasks and hire verified talent.
+      {{ t().loginModal.copy }}
     </p>
     <label>
-      Phone or email
+      {{ t().loginModal.phoneOrEmail }}
       <input type="text" placeholder="+255 7XX XXX XXX" />
     </label>
     <label>
-      Password
+      {{ t().loginModal.password }}
       <input type="password" placeholder="••••••••" />
     </label>
-    <button class="primary-btn full" type="button">Continue</button>
-    <p class="modal-note">Demo login UI — full auth connects to the live API next.</p>
+    <button class="primary-btn full" type="button">{{ t().loginModal.continueBtn }}</button>
+    <p class="modal-note">{{ t().loginModal.demoNote }}</p>
   </div>
 }
