@@ -1,0 +1,541 @@
+<div class="admin-layout">
+  <!-- Top Global Header -->
+  <header class="admin-topbar">
+    <div class="topbar-left">
+      <a routerLink="/" class="brand-link" title="Rudi kwenye Landing Page">
+        <span class="brand-badge">MF</span>
+        <div class="brand-text">
+          <strong>MchongoFasta</strong>
+          <small>Operations Console</small>
+        </div>
+      </a>
+      <span class="env-pill">⚡ Live Ops v1.2</span>
+    </div>
+
+    <div class="topbar-right">
+      <button type="button" class="action-ghost-btn" (click)="refreshData()" title="Sasisha taarifa">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+        </svg>
+        <span>Refresh</span>
+      </button>
+
+      <a routerLink="/" class="back-home-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Public Website</span>
+      </a>
+
+      <div class="admin-profile">
+        <div class="avatar">HQ</div>
+        <div class="user-info">
+          <strong>Admin Control</strong>
+          <small>Dar es Salaam, TZ</small>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Notification Banner -->
+  @if (systemAlert()) {
+    <div class="system-toast">
+      <span class="toast-icon">ℹ️</span>
+      <span>{{ systemAlert() }}</span>
+    </div>
+  }
+
+  <div class="admin-body">
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar">
+      <nav class="nav-menu">
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeTab() === 'overview'"
+          (click)="setTab('overview')"
+        >
+          <span class="nav-icon">📊</span>
+          <span class="nav-label">Muhtasari (Overview)</span>
+        </button>
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeTab() === 'workers'"
+          (click)="setTab('workers')"
+        >
+          <span class="nav-icon">👷</span>
+          <span class="nav-label">Wafanyakazi (Workers)</span>
+          <span class="count-pill">{{ workers().length }}</span>
+        </button>
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeTab() === 'jobs'"
+          (click)="setTab('jobs')"
+        >
+          <span class="nav-icon">📋</span>
+          <span class="nav-label">Michongo (Jobs)</span>
+          <span class="count-pill">{{ jobs().length }}</span>
+        </button>
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeTab() === 'verifications'"
+          (click)="setTab('verifications')"
+        >
+          <span class="nav-icon">🛡️</span>
+          <span class="nav-label">Uhakiki wa NIDA</span>
+          @if (pendingVerificationsCount() > 0) {
+            <span class="badge-alert">{{ pendingVerificationsCount() }}</span>
+          }
+        </button>
+
+        <button
+          type="button"
+          class="nav-item"
+          [class.active]="activeTab() === 'finances'"
+          (click)="setTab('finances')"
+        >
+          <span class="nav-icon">💰</span>
+          <span class="nav-label">Mapato & Malipo</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="status-card">
+          <div class="status-indicator online"></div>
+          <div>
+            <strong>Backend API Connected</strong>
+            <small>Vercel Serverless Ready</small>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="admin-main">
+      <!-- 1. OVERVIEW TAB -->
+      @if (activeTab() === 'overview') {
+        <section class="tab-content">
+          <div class="section-header">
+            <div>
+              <h1>Ripoti & Takwimu za Jukwaa</h1>
+              <p>Mwenendo wa kazi, watumiaji, mapato na wafanyakazi waliohakikiwa nchini Tanzania.</p>
+            </div>
+            <div class="quick-actions">
+              <button class="primary-action-btn" type="button" (click)="setTab('verifications')">
+                🛡️ Hakiki Wafanyakazi ({{ pendingVerificationsCount() }})
+              </button>
+            </div>
+          </div>
+
+          <!-- KPI Cards -->
+          <div class="kpi-grid">
+            @for (stat of stats(); track stat.label) {
+              <article class="kpi-card">
+                <div class="kpi-head">
+                  <span class="kpi-label">{{ stat.label }}</span>
+                  <span class="kpi-delta">{{ stat.delta }}</span>
+                </div>
+                <strong class="kpi-value">{{ stat.value }}</strong>
+                <small class="kpi-sub">Ikilinganishwa na mwezi uliopita</small>
+              </article>
+            }
+          </div>
+
+          <!-- Secondary Grid: Category distribution & Live Activity -->
+          <div class="two-col-grid">
+            <div class="panel-card">
+              <div class="panel-header">
+                <h3>Mahitaji kwa Vitengo (Categories Demand)</h3>
+                <span class="sub-badge">Dar es Salaam Region</span>
+              </div>
+              <div class="category-bars">
+                @for (cat of categories(); track cat.name) {
+                  <div class="cat-bar-item">
+                    <div class="cat-bar-meta">
+                      <strong>{{ cat.name }}</strong>
+                      <span>{{ cat.value }}%</span>
+                    </div>
+                    <div class="bar-track">
+                      <div class="bar-fill" [style.width.%]="cat.value"></div>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+
+            <div class="panel-card">
+              <div class="panel-header">
+                <h3>Shughuli za Hivi Karibuni (Recent Ops Activity)</h3>
+                <button type="button" class="text-btn" (click)="setTab('jobs')">Tazama zote ➔</button>
+              </div>
+              <ul class="activity-timeline">
+                <li class="timeline-item">
+                  <div class="tl-dot success"></div>
+                  <div class="tl-content">
+                    <strong>Kazi Mpya Imeunganishwa</strong>
+                    <p>Asha Mwinyi ameunganishwa na usafi wa nyumba Mikocheni (TZS 35,000).</p>
+                    <small>Dakika 8 zilizopita</small>
+                  </div>
+                </li>
+                <li class="timeline-item">
+                  <div class="tl-dot warning"></div>
+                  <div class="tl-content">
+                    <strong>Uhakiki Mpya wa NIDA</strong>
+                    <p>Baraka Emmanuel ametuma ombi la uhakiki wa kitambulisho.</p>
+                    <small>Dakika 15 zilizopita</small>
+                  </div>
+                </li>
+                <li class="timeline-item">
+                  <div class="tl-dot info"></div>
+                  <div class="tl-content">
+                    <strong>Malipo Yamekamilika</strong>
+                    <p>Malipo ya TZS 18,000 yameingizwa kwenye mkoba wa Juma Said.</p>
+                    <small>Saa 1 lililopita</small>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      }
+
+      <!-- 2. WORKERS TAB -->
+      @if (activeTab() === 'workers') {
+        <section class="tab-content">
+          <div class="section-header">
+            <div>
+              <h1>Wafanyakazi & Mafundi (Service Providers)</h1>
+              <p>Dhibiti orodha ya vibarakashia, viwango vyao vya nyota (rating) na uhakiki wao.</p>
+            </div>
+          </div>
+
+          <!-- Filter & Search Bar -->
+          <div class="filter-bar">
+            <div class="search-box">
+              <span class="search-icon">🔍</span>
+              <input
+                type="text"
+                placeholder="Tafuta kwa jina au ujuzi..."
+                [ngModel]="searchQuery()"
+                (ngModelChange)="searchQuery.set($event)"
+              />
+            </div>
+
+            <div class="filter-group">
+              <label>Kitengo: </label>
+              <select [ngModel]="selectedCategory()" (ngModelChange)="selectedCategory.set($event)">
+                <option value="All">Vitengo Vyote</option>
+                <option value="Domestic">Domestic (Usafi/Upishi)</option>
+                <option value="Logistics">Logistics (Usafirishaji)</option>
+                <option value="Care">Care (Malezi/Wazee)</option>
+                <option value="Technical">Technical (Ufundi/Uchoraji)</option>
+              </select>
+
+              <label>Uthibitisho: </label>
+              <select [ngModel]="selectedStatus()" (ngModelChange)="selectedStatus.set($event)">
+                <option value="All">Wote</option>
+                <option value="Verified">Wamethibitishwa (Verified)</option>
+                <option value="Reviewing">Inahakikiwa (Reviewing)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Table -->
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Mfanyakazi</th>
+                  <th>Kitengo (Skill)</th>
+                  <th>Ukadiriaji (Rating)</th>
+                  <th>Kazi Zilizokamilika</th>
+                  <th>Hadhi ya Uhakiki</th>
+                  <th>Vitendo (Actions)</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (worker of filteredWorkers(); track worker.id) {
+                  <tr>
+                    <td>
+                      <div class="worker-cell">
+                        <div class="cell-avatar">{{ worker.name.charAt(0) }}</div>
+                        <div>
+                          <strong>{{ worker.name }}</strong>
+                          <small>ID: {{ worker.id }}</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="category-tag">{{ worker.skill }}</span>
+                    </td>
+                    <td>
+                      <span class="rating-badge">★ {{ worker.rating }}</span>
+                    </td>
+                    <td>
+                      <strong>{{ worker.jobs }}</strong> kazi
+                    </td>
+                    <td>
+                      @if (worker.status === 'Verified') {
+                        <span class="status-pill verified">✓ Verified</span>
+                      } @else {
+                        <span class="status-pill reviewing">⏳ Inakaguliwa</span>
+                      }
+                    </td>
+                    <td>
+                      <button
+                        type="button"
+                        class="table-action-btn"
+                        (click)="toggleWorkerVerification(worker.id)"
+                      >
+                        {{ worker.status === 'Verified' ? 'Ondoa Badge' : 'Thibitisha' }}
+                      </button>
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="6" class="empty-state">
+                      Hakuna mfanyakazi anayelingana na utafutaji wako.
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+      }
+
+      <!-- 3. JOBS TAB -->
+      @if (activeTab() === 'jobs') {
+        <section class="tab-content">
+          <div class="section-header">
+            <div>
+              <h1>Michongo & Kazi za Wateja (Job Board)</h1>
+              <p>Kazi zote zilizoombwa na waajiri na hadhi zao za sasa.</p>
+            </div>
+          </div>
+
+          <!-- Filter & Search Bar -->
+          <div class="filter-bar">
+            <div class="search-box">
+              <span class="search-icon">🔍</span>
+              <input
+                type="text"
+                placeholder="Tafuta kichwa cha kazi au eneo..."
+                [ngModel]="searchQuery()"
+                (ngModelChange)="searchQuery.set($event)"
+              />
+            </div>
+
+            <div class="filter-group">
+              <label>Kitengo: </label>
+              <select [ngModel]="selectedCategory()" (ngModelChange)="selectedCategory.set($event)">
+                <option value="All">Vitengo Vyote</option>
+                <option value="Domestic">Domestic</option>
+                <option value="Logistics">Logistics</option>
+                <option value="Care">Care</option>
+                <option value="Technical">Technical</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Kichwa cha Mchongo</th>
+                  <th>Kitengo</th>
+                  <th>Eneo (Location)</th>
+                  <th>Bajeti (TZS)</th>
+                  <th>Waombaji</th>
+                  <th>Hadhi (Status)</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (job of filteredJobs(); track job.id) {
+                  <tr>
+                    <td>
+                      <strong>{{ job.title }}</strong>
+                    </td>
+                    <td>
+                      <span class="category-tag">{{ job.category }}</span>
+                    </td>
+                    <td>{{ job.area }}</td>
+                    <td>
+                      <strong class="money-text">{{ job.budget }}</strong>
+                    </td>
+                    <td>
+                      <span class="applicants-pill">{{ job.applicants }} waombaji</span>
+                    </td>
+                    <td>
+                      <span class="status-pill status-{{ job.status.toLowerCase().replace(' ', '-') }}">
+                        {{ job.status }}
+                      </span>
+                    </td>
+                  </tr>
+                } @empty {
+                  <tr>
+                    <td colspan="6" class="empty-state">
+                      Hakuna kazi iliyopatikana.
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+      }
+
+      <!-- 4. VERIFICATIONS TAB -->
+      @if (activeTab() === 'verifications') {
+        <section class="tab-content">
+          <div class="section-header">
+            <div>
+              <h1>Foleni ya Uhakiki wa Vitambulisho (NIDA KYC Queue)</h1>
+              <p>Kagua taarifa za NIDA na stakabadhi za wafanyakazi kabla ya kuwapa badge ya uaminifu.</p>
+            </div>
+            <div class="badge-counter">
+              <strong>{{ pendingVerificationsCount() }}</strong> Inasubiri Uhakiki
+            </div>
+          </div>
+
+          <div class="verification-cards-grid">
+            @for (item of verifications(); track item.id) {
+              <article class="verification-card" [class.approved]="item.status === 'Approved'">
+                <div class="vcard-head">
+                  <div class="vcard-user">
+                    <strong>{{ item.workerName }}</strong>
+                    <small>{{ item.phone }} • {{ item.category }}</small>
+                  </div>
+                  <span class="vcard-status status-{{ item.status.toLowerCase() }}">
+                    {{ item.status }}
+                  </span>
+                </div>
+
+                <div class="vcard-body">
+                  <div class="vcard-field">
+                    <span class="field-label">Namba ya NIDA:</span>
+                    <span class="field-val font-mono">{{ item.nidaNumber }}</span>
+                  </div>
+                  <div class="vcard-field">
+                    <span class="field-label">Eneo la Makazi:</span>
+                    <span class="field-val">{{ item.region }}</span>
+                  </div>
+                  <div class="vcard-field">
+                    <span class="field-label">Muda wa Maombi:</span>
+                    <span class="field-val">{{ item.submittedAt }}</span>
+                  </div>
+                </div>
+
+                <div class="vcard-actions">
+                  @if (item.status === 'Pending') {
+                    <button type="button" class="btn-approve" (click)="approveVerification(item.id)">
+                      ✓ Thibitisha (Approve)
+                    </button>
+                    <button type="button" class="btn-reject" (click)="rejectVerification(item.id)">
+                      ✕ Kataa (Reject)
+                    </button>
+                  } @else {
+                    <div class="vcard-completed-note">
+                      <span>Hatua Imekamilika ({{ item.status }})</span>
+                    </div>
+                  }
+                </div>
+              </article>
+            }
+          </div>
+        </section>
+      }
+
+      <!-- 5. FINANCES TAB -->
+      @if (activeTab() === 'finances') {
+        <section class="tab-content">
+          <div class="section-header">
+            <div>
+              <h1>Mapato, Kamisheni & Miamala (Finances)</h1>
+              <p>Makadirio ya fedha na mapato yanayotokana na michongo (10% platform take rate).</p>
+            </div>
+          </div>
+
+          <div class="kpi-grid">
+            <article class="kpi-card highlight">
+              <div class="kpi-head">
+                <span class="kpi-label">Mapato ya Mwezi (Gross Volume)</span>
+                <span class="kpi-delta">+24%</span>
+              </div>
+              <strong class="kpi-value">TZS 50,000,000</strong>
+              <small class="kpi-sub">Target: TZS 60M kufikia mwisho wa robo mwaka</small>
+            </article>
+
+            <article class="kpi-card">
+              <div class="kpi-head">
+                <span class="kpi-label">Kamisheni ya Jukwaa (10%)</span>
+                <span class="kpi-delta">+18%</span>
+              </div>
+              <strong class="kpi-value">TZS 5,000,000</strong>
+              <small class="kpi-sub">Net platform revenue</small>
+            </article>
+
+            <article class="kpi-card">
+              <div class="kpi-head">
+                <span class="kpi-label">Wastani wa Malipo ya Mfanyakazi</span>
+                <span class="kpi-delta">+12%</span>
+              </div>
+              <strong class="kpi-value">TZS 100,000 / mwezi</strong>
+              <small class="kpi-sub">Kwa kila vibarakashia anayefanya kazi</small>
+            </article>
+
+            <article class="kpi-card">
+              <div class="kpi-head">
+                <span class="kpi-label">Net Profit Margin</span>
+                <span class="kpi-delta">35%</span>
+              </div>
+              <strong class="kpi-value">30% - 40%</strong>
+              <small class="kpi-sub">Makadirio ya faida halisi</small>
+            </article>
+          </div>
+
+          <div class="panel-card mt-24">
+            <div class="panel-header">
+              <h3>Muundo wa Mapato (Monetization Breakdown)</h3>
+            </div>
+            <div class="revenue-breakdown-list">
+              <div class="rev-item">
+                <div class="rev-badge">10%</div>
+                <div class="rev-details">
+                  <strong>Kamisheni ya Kazi (Marketplace Take-Rate)</strong>
+                  <p>Inakatwa moja kwa moja wakati mteja na mfanyakazi wanapokamilisha mchongo.</p>
+                </div>
+                <span class="rev-status active">Inatumika Sasa</span>
+              </div>
+
+              <div class="rev-item">
+                <div class="rev-badge vip">VIP</div>
+                <div class="rev-details">
+                  <strong>Uthibitisho wa Haraka (Instant Worker KYC)</strong>
+                  <p>Ada ya shilingi 5,000 kwa vibarakashia anayetaka uhakiki wa NIDA ndani ya masaa 2.</p>
+                </div>
+                <span class="rev-status coming-soon">Inakuja Hivi Karibuni</span>
+              </div>
+
+              <div class="rev-item">
+                <div class="rev-badge ad">AD</div>
+                <div class="rev-details">
+                  <strong>Kazi Zilizopewa Kipaumbele (Featured Job Placement)</strong>
+                  <p>Waajiri na makampuni kulipia ili kazi zao zikae juu ya orodha ya mchongo fasta.</p>
+                </div>
+                <span class="rev-status coming-soon">Inakuja Hivi Karibuni</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      }
+    </main>
+  </div>
+</div>
