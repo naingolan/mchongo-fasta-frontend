@@ -112,48 +112,11 @@ main,
   color: #2b6aff;
 }
 
-.nav nav a.admin-nav-link {
-  color: #2b6aff;
-  font-weight: 700;
-  padding: 4px 10px;
-  background: rgba(43, 106, 255, 0.08);
-  border-radius: 8px;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background: rgba(43, 106, 255, 0.16);
-    transform: translateY(-1px);
-  }
-}
-
 .nav-actions,
 .hero-ctas {
   display: flex;
   align-items: center;
   gap: 10px;
-  flex-wrap: wrap;
-}
-
-.admin-quick-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 46px;
-  padding: 0 18px;
-  border-radius: 999px;
-  background: rgba(26, 43, 86, 0.06);
-  color: #1a2b56;
-  border: 1px solid rgba(26, 43, 86, 0.15);
-  font-weight: 700;
-  font-size: 0.9rem;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background: #1a2b56;
-    color: #fff;
-    border-color: #1a2b56;
-    box-shadow: 0 8px 20px rgba(26, 43, 86, 0.2);
-  }
 }
 
 .lang-dropdown-wrapper {
@@ -766,109 +729,6 @@ main,
   max-width: 1120px;
   margin: 0 auto;
   padding: 8px clamp(16px, 4vw, 24px) 40px;
-}
-
-.footer-links {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  flex-wrap: wrap;
-
-  .admin-footer-link {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #2b6aff;
-    padding: 6px 12px;
-    background: rgba(43, 106, 255, 0.06);
-    border-radius: 8px;
-    border: 1px solid rgba(43, 106, 255, 0.12);
-    transition: all 0.2s ease;
-
-    &:hover {
-      background: rgba(43, 106, 255, 0.12);
-      transform: translateY(-1px);
-    }
-  }
-}
-
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 40;
-  background: rgba(15, 23, 42, 0.45);
-}
-
-.login-modal {
-  position: fixed;
-  z-index: 50;
-  top: 50%;
-  left: 50%;
-  width: min(440px, calc(100vw - 32px));
-  transform: translate(-50%, -50%);
-  padding: 28px;
-  border-radius: 28px;
-  background: #fff;
-  box-shadow: 0 30px 80px rgba(15, 23, 42, 0.25);
-}
-
-.login-modal .close {
-  position: absolute;
-  top: 14px;
-  right: 16px;
-  border: 0;
-  background: #f1f5f9;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 1.2rem;
-}
-
-.login-modal h2 {
-  margin: 0 0 8px;
-}
-
-.login-modal label {
-  display: grid;
-  gap: 6px;
-  margin: 12px 0;
-  font-weight: 700;
-  font-size: 0.9rem;
-}
-
-.login-modal input {
-  min-height: 48px;
-  padding: 0 14px;
-  border: 0;
-  border-radius: 14px;
-  background: #f3f4f6;
-}
-
-.admin-login-shortcut {
-  margin-top: 18px;
-  padding: 12px;
-  border-radius: 12px;
-  background: #f8faff;
-  border: 1px dashed rgba(43, 106, 255, 0.25);
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-
-  span {
-    font-size: 0.8rem;
-    color: #64748b;
-  }
-
-  .admin-direct-btn {
-    font-size: 0.88rem;
-    font-weight: 800;
-    color: #2b6aff;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
 }
 
 .modal-note {

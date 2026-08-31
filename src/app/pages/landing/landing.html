@@ -12,7 +12,6 @@
       <a href="#workers">{{ t().nav.workers }}</a>
       <a href="#employers">{{ t().nav.employers }}</a>
       <a href="#model">{{ t().nav.model }}</a>
-      <a routerLink="/admin" class="admin-nav-link">Admin Ops 🛡️</a>
     </nav>
 
     <div class="nav-actions">
@@ -98,9 +97,6 @@
       <div class="hero-ctas">
         <a class="primary-btn" href="#get-started">{{ t().hero.findWork }}</a>
         <a class="secondary-btn" href="#employers">{{ t().hero.hireTalent }}</a>
-        <a class="admin-quick-btn" routerLink="/admin">
-          <span>⚡ Admin Portal</span>
-        </a>
       </div>
 
       <div class="preview-grid" aria-label="Product previews">
@@ -380,10 +376,7 @@
       <span class="brand-mark">MF</span>
       <strong>MchongoFasta</strong>
     </div>
-    <div class="footer-links">
-      <p>{{ t().footer.desc }}</p>
-      <a routerLink="/admin" class="admin-footer-link">🛡️ Operations / Admin Dashboard</a>
-    </div>
+    <p>{{ t().footer.desc }}</p>
   </footer>
 </div>
 
@@ -405,12 +398,6 @@
       <input type="password" placeholder="••••••••" />
     </label>
     <button class="primary-btn full" type="button">{{ t().loginModal.continueBtn }}</button>
-    
-    <div class="admin-login-shortcut">
-      <span>Wewe ni msimamizi / Admin?</span>
-      <a routerLink="/admin" (click)="closeLogin()" class="admin-direct-btn">Fungua Admin Dashboard ➔</a>
-    </div>
-
     <p class="modal-note">{{ t().loginModal.demoNote }}</p>
   </div>
 }
