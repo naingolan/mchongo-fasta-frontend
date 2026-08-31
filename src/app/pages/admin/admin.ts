@@ -2,6 +2,19 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { ChartModule } from 'primeng/chart';
+import { DialogModule } from 'primeng/dialog';
+import { InputTextModule } from 'primeng/inputtext';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { SelectModule } from 'primeng/select';
+import { TableModule } from 'primeng/table';
+import { TabsModule } from 'primeng/tabs';
+import { TagModule } from 'primeng/tag';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+
 import { ApiService, DashboardCategory, DashboardJob, DashboardStat, DashboardWorker } from '../../api.service';
 
 export interface VerificationItem {
@@ -18,24 +31,43 @@ export interface VerificationItem {
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    TableModule,
+    ButtonModule,
+    CardModule,
+    TagModule,
+    InputTextModule,
+    ChartModule,
+    DialogModule,
+    ProgressBarModule,
+    SelectModule,
+    TabsModule,
+    ToastModule,
+  ],
+  providers: [MessageService],
   templateUrl: './admin.html',
   styleUrl: './admin.scss',
 })
 export class AdminComponent implements OnInit {
   private readonly api = inject(ApiService);
+  private readonly messageService = inject(MessageService);
 
   protected readonly activeTab = signal<'overview' | 'workers' | 'jobs' | 'verifications' | 'finances'>('overview');
   protected readonly loading = signal(true);
   protected readonly searchQuery = signal('');
   protected readonly selectedCategory = signal('All');
-  protected readonly selectedStatus = signal('All');
 
   // Stats & Data
   protected readonly stats = signal<DashboardStat[]>([]);
   protected readonly jobs = signal<DashboardJob[]>([]);
   protected readonly workers = signal<DashboardWorker[]>([]);
   protected readonly categories = signal<DashboardCategory[]>([]);
+
+  // Chart Data for Sakai NG
+  protected chartData: any;
+  protected chartOptions: any;
 
   // Verification Queue
   protected readonly verifications = signal<VerificationItem[]>([
@@ -81,14 +113,14 @@ export class AdminComponent implements OnInit {
     },
   ]);
 
-  // System Notifications / Alert
-  protected readonly systemAlert = signal<string | null>(null);
+  // Selected item for modal inspect
+  protected selectedVerification: VerificationItem | null = null;
+  protected verificationDialogVisible = false;
 
   // Filtered Workers
   protected readonly filteredWorkers = computed(() => {
     const query = this.searchQuery().toLowerCase().trim();
     const category = this.selectedCategory();
-    const status = this.selectedStatus();
 
     return this.workers().filter((worker) => {
       const matchesQuery =
@@ -96,8 +128,7 @@ export class AdminComponent implements OnInit {
         worker.name.toLowerCase().includes(query) ||
         worker.skill.toLowerCase().includes(query);
       const matchesCategory = category === 'All' || worker.skill === category;
-      const matchesStatus = status === 'All' || worker.status === status;
-      return matchesQuery && matchesCategory && matchesStatus;
+      return matchesQuery && matchesCategory;
     });
   });
 
@@ -123,6 +154,39 @@ export class AdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.refreshData();
+    this.initCharts();
+  }
+
+  protected initCharts(): void {
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue('--text-color') || '#495057';
+    const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary') || '#6c757d';
+    const surfaceBorder = documentStyle.getPropertyValue('--surface-border') || '#dfe7ef';
+
+    this.chartData = {
+      labels: ['Domestic (42%)', 'Logistics (28%)', 'Care (16%)', 'Technical (14%)'],
+      datasets: [
+        {
+          data: [42, 28, 16, 14],
+          backgroundColor: ['#2B6AFF', '#60A5FA', '#10B981', '#F59E0B'],
+          hoverBackgroundColor: ['#1D4ED8', '#3B82F6', '#059669', '#D97706'],
+        },
+      ],
+    };
+
+    this.chartOptions = {
+      plugins: {
+        legend: {
+          labels: {
+            usePointStyle: true,
+            color: textColor,
+          },
+          position: 'bottom',
+        },
+      },
+      responsive: true,
+      maintainAspectRatio: false,
+    };
   }
 
   protected refreshData(): void {
@@ -136,7 +200,6 @@ export class AdminComponent implements OnInit {
         this.loading.set(false);
       },
       error: () => {
-        // Fallback default mock data for offline/standalone preview
         this.stats.set([
           { label: 'Active Users', value: '50.2K', delta: '+18%' },
           { label: 'Jobs Matched', value: '12.8K', delta: '+32%' },
@@ -232,18 +295,33 @@ export class AdminComponent implements OnInit {
     this.selectedCategory.set('All');
   }
 
+  protected inspectVerification(item: VerificationItem): void {
+    this.selectedVerification = item;
+    this.verificationDialogVisible = true;
+  }
+
   protected approveVerification(id: string): void {
     this.verifications.update((list) =>
       list.map((item) => (item.id === id ? { ...item, status: 'Approved' } : item))
     );
-    this.triggerAlert('Mhudumu amethibitishwa kikamilifu na kupokea verified badge! 🎉');
+    this.verificationDialogVisible = false;
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Uhakiki Umethibitishwa',
+      detail: 'Mhudumu amethibitishwa na kupewa verified badge! 🎉',
+    });
   }
 
   protected rejectVerification(id: string): void {
     this.verifications.update((list) =>
       list.map((item) => (item.id === id ? { ...item, status: 'Rejected' } : item))
     );
-    this.triggerAlert('Maombi ya uthibitisho yamekataliwa (taarifa zimetumwa kwa mtumiaji).');
+    this.verificationDialogVisible = false;
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Maombi Yamekataliwa',
+      detail: 'Maombi ya uhakiki yamekataliwa na ujumbe umetumwa.',
+    });
   }
 
   protected toggleWorkerVerification(workerId: string): void {
@@ -254,13 +332,31 @@ export class AdminComponent implements OnInit {
           : w
       )
     );
-    this.triggerAlert('Hadhi ya mfanyakazi imesasishwa!');
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Hadhi Imesasishwa',
+      detail: 'Taarifa za mfanyakazi zimesasishwa.',
+    });
   }
 
-  private triggerAlert(msg: string): void {
-    this.systemAlert.set(msg);
-    setTimeout(() => {
-      this.systemAlert.set(null);
-    }, 4000);
+  protected getSeverity(status: string): 'success' | 'info' | 'warn' | 'danger' | 'secondary' | 'contrast' {
+    switch (status.toLowerCase()) {
+      case 'verified':
+      case 'approved':
+      case 'completed':
+        return 'success';
+      case 'matching':
+      case 'in progress':
+        return 'info';
+      case 'reviewing':
+      case 'needs review':
+      case 'pending':
+        return 'warn';
+      case 'rejected':
+      case 'flagged':
+        return 'danger';
+      default:
+        return 'secondary';
+    }
   }
 }

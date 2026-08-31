@@ -1,3 +1,7 @@
+/* Global styles & Sakai NG layout */
+@use 'primeicons/primeicons.css';
+@use './assets/layout/layout.scss';
+
 * {
   box-sizing: border-box;
 }
@@ -10,6 +14,5 @@ body {
 }
 
 body {
-  background: #f8fbff;
   font-family: "Plus Jakarta Sans", "Avenir Next", system-ui, sans-serif;
 }
