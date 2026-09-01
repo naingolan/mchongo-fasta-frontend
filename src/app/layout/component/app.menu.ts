@@ -23,22 +23,22 @@ export class AppMenu implements OnInit {
   ngOnInit() {
     this.model = [
       {
-        label: 'Usimamizi & Takwimu',
+        label: '',
         items: [
           {
-            label: 'Muhtasari (Overview)',
+            label: 'Dashboard',
             icon: 'pi pi-fw pi-home',
             svg: 'overview',
             routerLink: ['/admin'],
           },
           {
-            label: 'Wafanyakazi (Workers)',
+            label: 'Wafanyakazi',
             icon: 'pi pi-fw pi-users',
             svg: 'workers',
             routerLink: ['/admin/workers'],
           },
           {
-            label: 'Michongo (Jobs)',
+            label: 'Michongo',
             icon: 'pi pi-fw pi-briefcase',
             svg: 'jobs',
             routerLink: ['/admin/jobs'],
@@ -50,7 +50,7 @@ export class AppMenu implements OnInit {
             routerLink: ['/admin/verifications'],
           },
           {
-            label: 'Mapato & Malipo',
+            label: 'Mapato na Malipo',
             icon: 'pi pi-fw pi-wallet',
             svg: 'finances',
             routerLink: ['/admin/finances'],
