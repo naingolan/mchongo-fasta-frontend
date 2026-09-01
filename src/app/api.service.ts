@@ -76,6 +76,7 @@ export interface DashboardStat {
   label: string;
   value: string;
   delta: string;
+  icon?: string;
 }
 
 export interface DashboardCategory {
@@ -150,24 +151,28 @@ export class ApiService {
       map(({ analytics, jobs, workers, verifications, finances }) => ({
         stats: [
           {
-            label: 'Active users',
+            label: 'Watumiaji Wote',
             value: this.formatCompact(analytics.activeUsers),
             delta: '+18%',
+            icon: 'users',
           },
           {
-            label: 'Jobs matched',
+            label: 'Michongo Iliyokamilika',
             value: this.formatCompact(analytics.matchedJobs),
             delta: '+32%',
+            icon: 'jobs',
           },
           {
-            label: 'Monthly revenue',
+            label: 'Mapato ya Mwezi',
             value: `TZS ${this.formatCompact(analytics.monthlyRevenueTzs)}`,
             delta: '+24%',
+            icon: 'revenue',
           },
           {
-            label: 'Verified workers',
+            label: 'Wafanyakazi Waliohakikiwa',
             value: this.formatCompact(analytics.verifiedWorkers),
             delta: '+41%',
+            icon: 'workers',
           },
         ],
         jobs: jobs.jobs.map((job) => ({

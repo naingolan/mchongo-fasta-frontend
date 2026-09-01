@@ -34,25 +34,52 @@
   .stat-card-top {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .stat-card-leading {
+    display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    gap: 14px;
+  }
+
+  .stat-icon-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(43, 106, 255, 0.12);
+    border: 1px solid rgba(43, 106, 255, 0.22);
+    color: #2b6aff;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+
+    svg {
+      width: 22px;
+      height: 22px;
+    }
   }
 
   .stat-label {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     font-weight: 700;
     color: var(--text-color-secondary);
+    display: block;
+    margin-bottom: 3px;
   }
 
   .stat-val {
-    font-size: 1.6rem;
+    font-size: 1.45rem;
     font-weight: 800;
     color: var(--text-color);
     letter-spacing: -0.02em;
+    line-height: 1.2;
   }
 
   .stat-desc {
-    margin-top: 6px;
+    margin-top: 8px;
     font-size: 0.75rem;
     color: var(--text-color-secondary);
   }
