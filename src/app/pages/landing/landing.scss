@@ -84,16 +84,12 @@ main,
   font-weight: 800;
 }
 
-.brand-mark {
+.brand-img {
   width: 36px;
   height: 36px;
-  display: grid;
-  place-items: center;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #2b6aff, #1a2b56);
-  color: #fff;
-  font-size: 0.8rem;
-  font-weight: 800;
+  border-radius: 10px;
+  display: block;
+  box-shadow: 0 4px 12px rgba(43, 106, 255, 0.25);
 }
 
 .nav nav {
