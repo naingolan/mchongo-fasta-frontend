@@ -286,38 +286,96 @@
         <div class="stat-card-sakai highlight-blue">
           <div class="stat-card-top">
             <span class="stat-label">Gross Platform Volume</span>
-            <p-tag value="+24%" severity="info" [rounded]="true" />
+            <p-tag value="Live" severity="info" [rounded]="true" />
           </div>
-          <div class="stat-val text-primary">TZS 50,000,000</div>
-          <div class="stat-desc">Mwezi huu (Gross Marketplace Volume)</div>
+          <div class="stat-val text-primary">
+            TZS {{ (financeSummary()?.totalTransactionVolumeTzs || 263000).toLocaleString('en-US') }}
+          </div>
+          <div class="stat-desc">Thamani ya michongo yote iliyolipiwa</div>
         </div>
 
         <div class="stat-card-sakai">
           <div class="stat-card-top">
-            <span class="stat-label">Net Platform Commission (10%)</span>
-            <p-tag value="+18%" severity="info" [rounded]="true" />
+            <span class="stat-label">Platform Take-Rate (10%)</span>
+            <p-tag value="10% Fee" severity="info" [rounded]="true" />
           </div>
-          <div class="stat-val">TZS 5,000,000</div>
-          <div class="stat-desc">Mapato halisi ya jukwaa</div>
+          <div class="stat-val text-success">
+            TZS {{ (financeSummary()?.totalPlatformFeesTzs || 26300).toLocaleString('en-US') }}
+          </div>
+          <div class="stat-desc">Mapato halisi ya MchongoFasta</div>
         </div>
 
         <div class="stat-card-sakai">
           <div class="stat-card-top">
-            <span class="stat-label">Wastani kwa Vibarakashia</span>
-            <p-tag value="+12%" severity="info" [rounded]="true" />
+            <span class="stat-label">Inayoshikiliwa Kwenye Escrow</span>
+            <p-tag value="Escrow Hold" severity="warn" [rounded]="true" />
           </div>
-          <div class="stat-val">TZS 100,000</div>
-          <div class="stat-desc">Wastani wa mapato ya mfanyakazi / mwezi</div>
+          <div class="stat-val">
+            TZS {{ (financeSummary()?.activeEscrowHoldTzs || 205000).toLocaleString('en-US') }}
+          </div>
+          <div class="stat-desc">Kazi zinazoendelea kabla ya kukamilika</div>
         </div>
 
         <div class="stat-card-sakai">
           <div class="stat-card-top">
-            <span class="stat-label">Net Profit Margin</span>
-            <p-tag value="35%" severity="contrast" [rounded]="true" />
+            <span class="stat-label">Wastani kwa Mfanyakazi</span>
+            <p-tag value="Average" severity="contrast" [rounded]="true" />
           </div>
-          <div class="stat-val">30% - 40%</div>
-          <div class="stat-desc">Makadirio ya faida</div>
+          <div class="stat-val">
+            TZS {{ (financeSummary()?.workerMonthlyEarningsAverageTzs || 380000).toLocaleString('en-US') }}
+          </div>
+          <div class="stat-desc">Mapato ya mfanyakazi kwa mwezi</div>
         </div>
+      </div>
+
+      <!-- Live Transaction Ledger -->
+      <div class="content-card mt-4">
+        <div class="table-header-row">
+          <div>
+            <h3>Daftari la Miamala ya Escrow & Malipo (Transaction Ledger)</h3>
+            <p class="text-muted">Miamala yote ya kazi, makato ya kamisheni (10%), na malipo ya vibarakashia moja kwa moja kutoka seva.</p>
+          </div>
+        </div>
+
+        <p-table [value]="transactions()" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>ID ya Muamala</th>
+              <th>Mchongo / Kazi</th>
+              <th>Mwajiri (Payer)</th>
+              <th>Mfanyakazi (Payee)</th>
+              <th>Jumla (TZS)</th>
+              <th>Ada ya Jukwaa (10%)</th>
+              <th>Malipo ya Mfanyakazi</th>
+              <th>Njia ya Malipo</th>
+              <th>Hadhi (Status)</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-tx>
+            <tr>
+              <td class="font-mono text-xs">{{ tx.id }}</td>
+              <td><strong>{{ tx.jobTitle }}</strong></td>
+              <td>{{ tx.employerName }}</td>
+              <td>{{ tx.workerName }}</td>
+              <td><strong>TZS {{ tx.amountTzs.toLocaleString('en-US') }}</strong></td>
+              <td class="text-success font-semibold">+TZS {{ tx.platformFeeTzs.toLocaleString('en-US') }}</td>
+              <td>TZS {{ tx.workerPayoutTzs.toLocaleString('en-US') }}</td>
+              <td>
+                <span class="text-xs">{{ tx.paymentMethod }}</span>
+              </td>
+              <td>
+                <p-tag [value]="tx.status" [severity]="getSeverity(tx.status)" [rounded]="true" />
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="9" class="text-center p-4 text-muted">
+                Hakuna muamala uliopatikana.
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
       </div>
 
       <div class="content-card mt-4">

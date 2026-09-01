@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -16,18 +16,16 @@ import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 
-import { ApiService, DashboardCategory, DashboardJob, DashboardStat, DashboardWorker } from '../../api.service';
-
-export interface VerificationItem {
-  id: string;
-  workerName: string;
-  phone: string;
-  category: string;
-  nidaNumber: string;
-  region: string;
-  submittedAt: string;
-  status: 'Pending' | 'Approved' | 'Rejected';
-}
+import {
+  ApiService,
+  DashboardCategory,
+  DashboardJob,
+  DashboardStat,
+  DashboardWorker,
+  FinanceSummary,
+  TransactionItem,
+  VerificationItem,
+} from '../../api.service';
 
 @Component({
   selector: 'app-admin',
@@ -61,59 +59,18 @@ export class AdminComponent implements OnInit {
   protected readonly searchQuery = signal('');
   protected readonly selectedCategory = signal('All');
 
-  // Stats & Data
+  // Stats & Data loaded live from backend
   protected readonly stats = signal<DashboardStat[]>([]);
   protected readonly jobs = signal<DashboardJob[]>([]);
   protected readonly workers = signal<DashboardWorker[]>([]);
   protected readonly categories = signal<DashboardCategory[]>([]);
+  protected readonly verifications = signal<VerificationItem[]>([]);
+  protected readonly transactions = signal<TransactionItem[]>([]);
+  protected readonly financeSummary = signal<FinanceSummary | null>(null);
 
   // Chart Data for Sakai NG
   protected chartData: any;
   protected chartOptions: any;
-
-  // Verification Queue
-  protected readonly verifications = signal<VerificationItem[]>([
-    {
-      id: 'ver_001',
-      workerName: 'Baraka Emmanuel',
-      phone: '+255 754 123 456',
-      category: 'Technical',
-      nidaNumber: '19920815-11105-00001-24',
-      region: 'Mikocheni B, DSM',
-      submittedAt: '10 mins ago',
-      status: 'Pending',
-    },
-    {
-      id: 'ver_002',
-      workerName: 'Salma Juma',
-      phone: '+255 689 443 210',
-      category: 'Domestic',
-      nidaNumber: '19950322-21104-00002-18',
-      region: 'Kariakoo, DSM',
-      submittedAt: '35 mins ago',
-      status: 'Pending',
-    },
-    {
-      id: 'ver_003',
-      workerName: 'Emmanuel Lyimo',
-      phone: '+255 713 889 001',
-      category: 'Logistics',
-      nidaNumber: '19891104-31109-00003-72',
-      region: 'Sinza, DSM',
-      submittedAt: '2 hours ago',
-      status: 'Pending',
-    },
-    {
-      id: 'ver_004',
-      workerName: 'Fatma Bakari',
-      phone: '+255 777 654 321',
-      category: 'Care',
-      nidaNumber: '19970619-41108-00004-90',
-      region: 'Masaki, DSM',
-      submittedAt: 'Yesterday',
-      status: 'Approved',
-    },
-  ]);
 
   // Selected item for modal inspect
   protected selectedVerification: VerificationItem | null = null;
@@ -128,8 +85,9 @@ export class AdminComponent implements OnInit {
       const matchesQuery =
         !query ||
         worker.name.toLowerCase().includes(query) ||
-        worker.skill.toLowerCase().includes(query);
-      const matchesCategory = category === 'All' || worker.skill === category;
+        worker.skill.toLowerCase().includes(query) ||
+        (worker.area && worker.area.toLowerCase().includes(query));
+      const matchesCategory = category === 'All' || worker.skill.toLowerCase() === category.toLowerCase();
       return matchesQuery && matchesCategory;
     });
   });
@@ -144,7 +102,7 @@ export class AdminComponent implements OnInit {
         !query ||
         job.title.toLowerCase().includes(query) ||
         job.area.toLowerCase().includes(query);
-      const matchesCategory = category === 'All' || job.category === category;
+      const matchesCategory = category === 'All' || job.category.toLowerCase() === category.toLowerCase();
       return matchesQuery && matchesCategory;
     });
   });
@@ -163,7 +121,6 @@ export class AdminComponent implements OnInit {
       });
 
     this.refreshData();
-    this.initCharts();
   }
 
   private updateTabFromUrl(url: string): void {
@@ -180,19 +137,20 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  protected initCharts(): void {
+  protected initCharts(categories: DashboardCategory[]): void {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color') || '#495057';
-    const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary') || '#6c757d';
-    const surfaceBorder = documentStyle.getPropertyValue('--surface-border') || '#dfe7ef';
+
+    const labels = categories.map((c) => `${c.name} (${c.value}%)`);
+    const data = categories.map((c) => c.value);
 
     this.chartData = {
-      labels: ['Domestic (42%)', 'Logistics (28%)', 'Care (16%)', 'Technical (14%)'],
+      labels,
       datasets: [
         {
-          data: [42, 28, 16, 14],
-          backgroundColor: ['#2B6AFF', '#60A5FA', '#93C5FD', '#F59E0B'],
-          hoverBackgroundColor: ['#1D4ED8', '#3B82F6', '#60A5FA', '#D97706'],
+          data,
+          backgroundColor: ['#2B6AFF', '#60A5FA', '#93C5FD', '#F59E0B', '#10B981'],
+          hoverBackgroundColor: ['#1D4ED8', '#3B82F6', '#60A5FA', '#D97706', '#059669'],
         },
       ],
     };
@@ -220,93 +178,16 @@ export class AdminComponent implements OnInit {
         this.jobs.set(data.jobs);
         this.workers.set(data.workers);
         this.categories.set(data.categories);
+        this.verifications.set(data.verifications);
+        if (data.finances) {
+          this.transactions.set(data.finances.transactions);
+          this.financeSummary.set(data.finances.summary);
+        }
+        this.initCharts(data.categories);
         this.loading.set(false);
       },
-      error: () => {
-        this.stats.set([
-          { label: 'Active Users', value: '50.2K', delta: '+18%' },
-          { label: 'Jobs Matched', value: '12.8K', delta: '+32%' },
-          { label: 'Monthly Revenue', value: 'TZS 50M', delta: '+24%' },
-          { label: 'Verified Workers', value: '8.4K', delta: '+41%' },
-        ]);
-        this.jobs.set([
-          {
-            id: 'job_001',
-            title: 'House Cleaning & Laundry',
-            category: 'Domestic',
-            area: 'Mikocheni',
-            budget: 'TZS 35,000',
-            status: 'Matching',
-            applicants: 12,
-          },
-          {
-            id: 'job_002',
-            title: 'Kariakoo Package Dispatch',
-            category: 'Logistics',
-            area: 'Kariakoo',
-            budget: 'TZS 18,000',
-            status: 'In progress',
-            applicants: 9,
-          },
-          {
-            id: 'job_003',
-            title: 'Office Wall Repaint & Touchup',
-            category: 'Technical',
-            area: 'Masaki',
-            budget: 'TZS 95,000',
-            status: 'Matching',
-            applicants: 4,
-          },
-          {
-            id: 'job_004',
-            title: 'Elderly Day Caregiver',
-            category: 'Care',
-            area: 'Kinondoni',
-            budget: 'TZS 45,000',
-            status: 'Needs review',
-            applicants: 6,
-          },
-        ]);
-        this.workers.set([
-          {
-            id: 'w_01',
-            name: 'Asha Mwinyi',
-            skill: 'Domestic',
-            rating: '4.9',
-            jobs: 128,
-            status: 'Verified',
-          },
-          {
-            id: 'w_02',
-            name: 'Juma Said',
-            skill: 'Logistics',
-            rating: '4.8',
-            jobs: 86,
-            status: 'Reviewing',
-          },
-          {
-            id: 'w_03',
-            name: 'Rehema Ally',
-            skill: 'Care',
-            rating: '4.7',
-            jobs: 72,
-            status: 'Verified',
-          },
-          {
-            id: 'w_04',
-            name: 'Daudi Makonda',
-            skill: 'Technical',
-            rating: '4.95',
-            jobs: 210,
-            status: 'Verified',
-          },
-        ]);
-        this.categories.set([
-          { name: 'Domestic', value: 42 },
-          { name: 'Logistics', value: 28 },
-          { name: 'Care', value: 16 },
-          { name: 'Technical', value: 14 },
-        ]);
+      error: (err) => {
+        console.error('Error fetching dashboard from backend:', err);
         this.loading.set(false);
       },
     });
@@ -324,41 +205,63 @@ export class AdminComponent implements OnInit {
   }
 
   protected approveVerification(id: string): void {
-    this.verifications.update((list) =>
-      list.map((item) => (item.id === id ? { ...item, status: 'Approved' } : item))
-    );
-    this.verificationDialogVisible = false;
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Uhakiki Umethibitishwa',
-      detail: 'Mhudumu amethibitishwa na kupewa verified badge! 🎉',
+    this.api.updateVerification(id, 'Approved').subscribe({
+      next: () => {
+        this.verifications.update((list) =>
+          list.map((item) => (item.id === id ? { ...item, status: 'Approved' } : item))
+        );
+        this.verificationDialogVisible = false;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Uhakiki Umethibitishwa',
+          detail: 'Mhudumu amethibitishwa kwenye database na kupewa verified badge! 🎉',
+        });
+      },
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Hitilafu',
+          detail: 'Imeshindwa kusasisha uhakiki kwenye seva.',
+        });
+      }
     });
   }
 
   protected rejectVerification(id: string): void {
-    this.verifications.update((list) =>
-      list.map((item) => (item.id === id ? { ...item, status: 'Rejected' } : item))
-    );
-    this.verificationDialogVisible = false;
-    this.messageService.add({
-      severity: 'warn',
-      summary: 'Maombi Yamekataliwa',
-      detail: 'Maombi ya uhakiki yamekataliwa na ujumbe umetumwa.',
+    this.api.updateVerification(id, 'Rejected').subscribe({
+      next: () => {
+        this.verifications.update((list) =>
+          list.map((item) => (item.id === id ? { ...item, status: 'Rejected' } : item))
+        );
+        this.verificationDialogVisible = false;
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Maombi Yamekataliwa',
+          detail: 'Maombi ya uhakiki yamekataliwa kwenye mfumo.',
+        });
+      },
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Hitilafu',
+          detail: 'Imeshindwa kusasisha hadhi kwenye seva.',
+        });
+      }
     });
   }
 
   protected toggleWorkerVerification(workerId: string): void {
+    const worker = this.workers().find((w) => w.id === workerId);
+    if (!worker) return;
+
+    const newStatus = worker.status === 'Verified' ? 'Reviewing' : 'Verified';
     this.workers.update((list) =>
-      list.map((w) =>
-        w.id === workerId
-          ? { ...w, status: w.status === 'Verified' ? 'Reviewing' : 'Verified' }
-          : w
-      )
+      list.map((w) => (w.id === workerId ? { ...w, status: newStatus } : w))
     );
     this.messageService.add({
       severity: 'info',
       summary: 'Hadhi Imesasishwa',
-      detail: 'Taarifa za mfanyakazi zimesasishwa.',
+      detail: `Mfanyakazi sasa ana hadhi ya: ${newStatus}`,
     });
   }
 
@@ -369,13 +272,16 @@ export class AdminComponent implements OnInit {
       case 'completed':
       case 'matching':
       case 'in progress':
+      case 'disbursed':
         return 'info';
       case 'reviewing':
       case 'needs review':
       case 'pending':
+      case 'escrow held':
         return 'warn';
       case 'rejected':
       case 'flagged':
+      case 'refunded':
         return 'danger';
       default:
         return 'secondary';
