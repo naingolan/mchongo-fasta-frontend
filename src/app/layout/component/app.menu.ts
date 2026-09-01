@@ -28,27 +28,31 @@ export class AppMenu implements OnInit {
           {
             label: 'Muhtasari (Overview)',
             icon: 'pi pi-fw pi-home',
+            svg: 'overview',
             routerLink: ['/admin'],
           },
           {
             label: 'Wafanyakazi (Workers)',
             icon: 'pi pi-fw pi-users',
+            svg: 'workers',
             routerLink: ['/admin/workers'],
           },
           {
             label: 'Michongo (Jobs)',
             icon: 'pi pi-fw pi-briefcase',
+            svg: 'jobs',
             routerLink: ['/admin/jobs'],
           },
           {
             label: 'Uhakiki wa NIDA',
             icon: 'pi pi-fw pi-shield',
+            svg: 'verifications',
             routerLink: ['/admin/verifications'],
-            badge: '4',
           },
           {
             label: 'Mapato & Malipo',
             icon: 'pi pi-fw pi-wallet',
+            svg: 'finances',
             routerLink: ['/admin/finances'],
           },
         ],
