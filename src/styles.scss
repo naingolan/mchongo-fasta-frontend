@@ -49,3 +49,22 @@ body {
     border-color: #1d4ed8 !important;
   }
 }
+
+.p-tag-info,
+.p-tag-primary {
+  background: rgba(43, 106, 255, 0.12) !important;
+  color: #2b6aff !important;
+  border: 1px solid rgba(43, 106, 255, 0.2) !important;
+}
+
+.p-tag-success {
+  background: rgba(43, 106, 255, 0.12) !important;
+  color: #2b6aff !important;
+  border: 1px solid rgba(43, 106, 255, 0.2) !important;
+}
+
+.p-badge-info,
+.p-badge-primary {
+  background: #2b6aff !important;
+  color: #ffffff !important;
+}
