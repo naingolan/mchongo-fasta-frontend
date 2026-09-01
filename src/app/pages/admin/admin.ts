@@ -168,8 +168,8 @@ export class AdminComponent implements OnInit {
       datasets: [
         {
           data: [42, 28, 16, 14],
-          backgroundColor: ['#2B6AFF', '#60A5FA', '#10B981', '#F59E0B'],
-          hoverBackgroundColor: ['#1D4ED8', '#3B82F6', '#059669', '#D97706'],
+          backgroundColor: ['#2B6AFF', '#60A5FA', '#93C5FD', '#F59E0B'],
+          hoverBackgroundColor: ['#1D4ED8', '#3B82F6', '#60A5FA', '#D97706'],
         },
       ],
     };
