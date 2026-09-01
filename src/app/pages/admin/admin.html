@@ -111,7 +111,7 @@
             <tr>
               <td>
                 <div class="flex-align-center gap-2">
-                  <div class="avatar-circle">{{ worker.name.charAt(0) }}</div>
+                  <div class="avatar-circle">{{ getInitials(worker.name) }}</div>
                   <div>
                     <strong>{{ worker.name }}</strong>
                     <div class="text-xs text-muted">{{ worker.id }}</div>
@@ -236,9 +236,12 @@
           @for (item of verifications(); track item.id) {
             <div class="vcard-box" [class.vcard-approved]="item.status === 'Approved'">
               <div class="vcard-top">
-                <div>
-                  <strong>{{ item.workerName }}</strong>
-                  <div class="text-xs text-muted">{{ item.phone }} • {{ item.category }}</div>
+                <div class="flex-align-center gap-2">
+                  <div class="avatar-circle">{{ getInitials(item.workerName) }}</div>
+                  <div>
+                    <strong>{{ item.workerName }}</strong>
+                    <div class="text-xs text-muted">{{ item.phone }} • {{ item.category }}</div>
+                  </div>
                 </div>
                 <p-tag [value]="item.status" [severity]="getSeverity(item.status)" [rounded]="true" />
               </div>

@@ -381,4 +381,13 @@ export class AdminComponent implements OnInit {
         return 'secondary';
     }
   }
+
+  protected getInitials(name: string): string {
+    if (!name) return 'MF';
+    const parts = name.trim().split(/\s+/).filter(Boolean);
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return name.slice(0, 2).toUpperCase();
+  }
 }
