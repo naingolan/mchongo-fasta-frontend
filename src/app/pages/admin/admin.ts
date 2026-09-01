@@ -344,7 +344,6 @@ export class AdminComponent implements OnInit {
       case 'verified':
       case 'approved':
       case 'completed':
-        return 'success';
       case 'matching':
       case 'in progress':
         return 'info';

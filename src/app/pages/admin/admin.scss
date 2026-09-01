@@ -253,8 +253,8 @@
   gap: 14px;
 
   &.vcard-approved {
-    border-color: #a7f3d0;
-    background: rgba(16, 185, 129, 0.04);
+    border-color: rgba(43, 106, 255, 0.35);
+    background: rgba(43, 106, 255, 0.04);
   }
 
   .vcard-top {
@@ -293,7 +293,7 @@
 
   .vcard-done-note {
     font-size: 0.82rem;
-    color: #10b981;
+    color: #2b6aff;
     font-weight: 700;
   }
 }

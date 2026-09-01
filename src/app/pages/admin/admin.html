@@ -64,7 +64,7 @@
           <div class="stat-card-sakai">
             <div class="stat-card-top">
               <span class="stat-label">{{ stat.label }}</span>
-              <p-tag [value]="stat.delta" severity="success" [rounded]="true" />
+              <p-tag [value]="stat.delta" severity="info" [rounded]="true" />
             </div>
             <div class="stat-val">{{ stat.value }}</div>
             <div class="stat-desc">Ikilinganishwa na mwezi uliopita</div>
@@ -91,7 +91,7 @@
           </div>
           <ul class="activity-list-sakai">
             <li>
-              <div class="activity-icon success">
+              <div class="activity-icon info">
                 <i class="pi pi-check"></i>
               </div>
               <div class="activity-details">
@@ -188,7 +188,7 @@
                 <p-button
                   [label]="worker.status === 'Verified' ? 'Ondoa Badge' : 'Thibitisha'"
                   [icon]="worker.status === 'Verified' ? 'pi pi-times' : 'pi pi-check'"
-                  [severity]="worker.status === 'Verified' ? 'secondary' : 'success'"
+                  [severity]="worker.status === 'Verified' ? 'secondary' : 'info'"
                   size="small"
                   (click)="toggleWorkerVerification(worker.id)"
                 />
@@ -314,7 +314,7 @@
 
               <div class="vcard-actions-row">
                 @if (item.status === 'Pending') {
-                  <p-button label="Thibitisha" icon="pi pi-check" severity="success" size="small" (click)="approveVerification(item.id)" />
+                  <p-button label="Thibitisha" icon="pi pi-check" severity="info" size="small" (click)="approveVerification(item.id)" />
                   <p-button label="Kataa" icon="pi pi-times" severity="danger" size="small" [outlined]="true" (click)="rejectVerification(item.id)" />
                   <p-button icon="pi pi-eye" [text]="true" size="small" (click)="inspectVerification(item)" />
                 } @else {
@@ -337,7 +337,7 @@
         <div class="stat-card-sakai highlight-blue">
           <div class="stat-card-top">
             <span class="stat-label">Gross Platform Volume</span>
-            <p-tag value="+24%" severity="success" [rounded]="true" />
+            <p-tag value="+24%" severity="info" [rounded]="true" />
           </div>
           <div class="stat-val text-primary">TZS 50,000,000</div>
           <div class="stat-desc">Mwezi huu (Gross Marketplace Volume)</div>
@@ -346,7 +346,7 @@
         <div class="stat-card-sakai">
           <div class="stat-card-top">
             <span class="stat-label">Net Platform Commission (10%)</span>
-            <p-tag value="+18%" severity="success" [rounded]="true" />
+            <p-tag value="+18%" severity="info" [rounded]="true" />
           </div>
           <div class="stat-val">TZS 5,000,000</div>
           <div class="stat-desc">Mapato halisi ya jukwaa</div>
@@ -382,7 +382,7 @@
               <strong>Kamisheni ya Kazi (Marketplace Take-Rate)</strong>
               <p class="text-muted">Inakatwa moja kwa moja wakati kazi inapokamilika na mteja akalipa.</p>
             </div>
-            <p-tag value="Live / Inatumika" severity="success" [rounded]="true" />
+            <p-tag value="Live / Inatumika" severity="info" [rounded]="true" />
           </div>
           <div class="stream-row">
             <div class="stream-badge purple">VIP</div>
@@ -433,7 +433,7 @@
       </div>
       <ng-template pTemplate="footer">
         <p-button label="Kataa" severity="danger" [outlined]="true" (click)="rejectVerification(selectedVerification.id)" />
-        <p-button label="Thibitisha (Approve)" severity="success" (click)="approveVerification(selectedVerification.id)" />
+        <p-button label="Thibitisha (Approve)" severity="info" (click)="approveVerification(selectedVerification.id)" />
       </ng-template>
     </p-dialog>
   }
