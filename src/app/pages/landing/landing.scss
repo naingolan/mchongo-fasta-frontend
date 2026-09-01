@@ -84,12 +84,10 @@ main,
   font-weight: 800;
 }
 
-.brand-img {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+.brand-svg {
   display: block;
-  box-shadow: 0 4px 12px rgba(43, 106, 255, 0.25);
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 8px rgba(43, 106, 255, 0.25));
 }
 
 .nav nav {
@@ -830,10 +828,10 @@ main,
     margin-bottom: 16px;
   }
 
-  .modal-brand-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
+  .modal-brand-svg {
+    display: block;
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 8px rgba(43, 106, 255, 0.25));
   }
 
   .modal-eyebrow {
