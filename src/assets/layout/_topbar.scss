@@ -73,6 +73,7 @@
     }
 
     .layout-menu-button {
+        display: none;
         margin-right: 0.5rem;
     }
 
@@ -106,6 +107,7 @@
         }
 
         .layout-menu-button {
+            display: inline-flex;
             margin-left: 0;
             margin-right: 0.5rem;
         }
