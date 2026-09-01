@@ -109,6 +109,37 @@ export class AdminComponent implements OnInit {
     });
   });
 
+  // Finances Search & Filter
+  protected readonly financeSearchQuery = signal('');
+  protected readonly financeStatusFilter = signal<string>('All');
+  protected readonly transactionStatusOptions = [
+    { label: 'Hadhi Zote (All)', value: 'All' },
+    { label: 'Zilizolipwa (Disbursed / Paid)', value: 'Disbursed' },
+    { label: 'Zinazoshikiliwa (Escrow Held)', value: 'Escrow Held' },
+  ];
+
+  protected readonly filteredTransactions = computed(() => {
+    const query = this.financeSearchQuery().toLowerCase().trim();
+    const status = this.financeStatusFilter();
+
+    return this.transactions().filter((tx) => {
+      const matchesQuery =
+        !query ||
+        tx.id.toLowerCase().includes(query) ||
+        tx.jobTitle.toLowerCase().includes(query) ||
+        tx.employerName.toLowerCase().includes(query) ||
+        tx.workerName.toLowerCase().includes(query) ||
+        (tx.paymentMethod && tx.paymentMethod.toLowerCase().includes(query));
+
+      const matchesStatus =
+        status === 'All' ||
+        (status === 'Disbursed' && tx.status === 'Disbursed') ||
+        (status === 'Escrow Held' && tx.status === 'Escrow Held');
+
+      return matchesQuery && matchesStatus;
+    });
+  });
+
   // Pending Verifications Count
   protected readonly pendingVerificationsCount = computed(() => {
     return this.verifications().filter((v) => v.status === 'Pending').length;
