@@ -27,64 +27,6 @@
   }
 }
 
-.header-pills {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--surface-card);
-  padding: 6px;
-  border-radius: 14px;
-  border: 1px solid var(--surface-border);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-  flex-wrap: wrap;
-}
-
-.header-pill-btn {
-  display: inline-flex;
-  align-items: center;
-  padding: 8px 14px;
-  border-radius: 10px;
-  background: transparent;
-  color: var(--text-color-secondary);
-  font-weight: 600;
-  font-size: 0.85rem;
-  border: 0;
-  cursor: pointer;
-  transition: all 0.15s ease;
-
-  .pill-icon {
-    margin-right: 6px;
-    flex-shrink: 0;
-    vertical-align: middle;
-  }
-
-  .pill-badge {
-    margin-left: 6px;
-    padding: 2px 7px;
-    border-radius: 999px;
-    background: #ef4444;
-    color: #fff;
-    font-size: 0.72rem;
-    font-weight: 800;
-  }
-
-  &:hover {
-    color: var(--text-color);
-    background: var(--surface-hover);
-  }
-
-  &.active {
-    background: var(--primary-color);
-    color: var(--primary-color-text, #ffffff);
-    font-weight: 700;
-
-    .pill-badge {
-      background: #ffffff;
-      color: #ef4444;
-    }
-  }
-}
-
 /* 4 STAT CARDS */
 .grid-stats {
   display: grid;

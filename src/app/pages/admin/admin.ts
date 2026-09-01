@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
@@ -53,6 +54,7 @@ export interface VerificationItem {
 export class AdminComponent implements OnInit {
   private readonly api = inject(ApiService);
   private readonly messageService = inject(MessageService);
+  private readonly router = inject(Router);
 
   protected readonly activeTab = signal<'overview' | 'workers' | 'jobs' | 'verifications' | 'finances'>('overview');
   protected readonly loading = signal(true);
@@ -153,8 +155,29 @@ export class AdminComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.updateTabFromUrl(this.router.url);
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: any) => {
+        this.updateTabFromUrl(event.urlAfterRedirects || event.url);
+      });
+
     this.refreshData();
     this.initCharts();
+  }
+
+  private updateTabFromUrl(url: string): void {
+    if (url.includes('/admin/workers')) {
+      this.activeTab.set('workers');
+    } else if (url.includes('/admin/jobs')) {
+      this.activeTab.set('jobs');
+    } else if (url.includes('/admin/verifications')) {
+      this.activeTab.set('verifications');
+    } else if (url.includes('/admin/finances')) {
+      this.activeTab.set('finances');
+    } else {
+      this.activeTab.set('overview');
+    }
   }
 
   protected initCharts(): void {
