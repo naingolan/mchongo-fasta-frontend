@@ -268,7 +268,7 @@
 
               <div class="vcard-actions-row">
                 @if (item.status === 'Pending') {
-                  <p-button label="Thibitisha" icon="pi pi-check" severity="info" size="small" (click)="approveVerification(item.id)" />
+                  <p-button label="Thibitisha" icon="pi pi-check" severity="primary" size="small" (click)="approveVerification(item.id)" />
                   <p-button label="Kataa" icon="pi pi-times" severity="danger" size="small" [outlined]="true" (click)="rejectVerification(item.id)" />
                   <p-button icon="pi pi-eye" [text]="true" size="small" (click)="inspectVerification(item)" />
                 } @else {
@@ -387,7 +387,7 @@
       </div>
       <ng-template pTemplate="footer">
         <p-button label="Kataa" severity="danger" [outlined]="true" (click)="rejectVerification(selectedVerification.id)" />
-        <p-button label="Thibitisha (Approve)" severity="info" (click)="approveVerification(selectedVerification.id)" />
+        <p-button label="Thibitisha (Approve)" severity="primary" (click)="approveVerification(selectedVerification.id)" />
       </ng-template>
     </p-dialog>
   }
