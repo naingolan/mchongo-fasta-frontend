@@ -1,4 +1,4 @@
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
@@ -6,6 +6,7 @@ import { definePreset } from '@primeng/themes';
 import Aura from '@primeng/themes/aura';
 import { providePrimeNG } from 'primeng/config';
 import { routes } from './app.routes';
+import { loadingInterceptor } from './core/interceptors/loading.interceptor';
 
 const MfThemePreset = definePreset(Aura, {
   semantic: {
@@ -29,7 +30,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(), withInterceptors([loadingInterceptor])),
     provideAnimationsAsync(),
     provideRouter(
       routes,
