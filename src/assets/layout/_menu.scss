@@ -68,12 +68,16 @@
             cursor: pointer;
             padding: 0.75rem 1rem;
             border-radius: var(--content-border-radius);
-            transition:
-                background-color var(--element-transition-duration),
-                box-shadow var(--element-transition-duration);
+            transition: all 0.18s ease;
 
             .layout-menuitem-icon {
-                margin-right: 0.5rem;
+                margin-right: 0.75rem;
+                transition: transform 0.18s ease;
+            }
+
+            .layout-menuitem-text {
+                font-weight: 600;
+                font-size: 0.95rem;
             }
 
             .layout-submenu-toggler {
@@ -82,13 +86,43 @@
                 transition: transform var(--element-transition-duration);
             }
 
-            &.active-route {
-                font-weight: 700;
-                color: var(--primary-color);
+            &:hover:not(.active-route) {
+                background-color: rgba(43, 106, 255, 0.08) !important;
+                color: #2b6aff !important;
+
+                .layout-menuitem-text {
+                    color: #2b6aff !important;
+                }
+
+                .layout-menuitem-icon {
+                    color: #2b6aff !important;
+                    path {
+                        fill: #2b6aff !important;
+                    }
+                }
             }
 
-            &:hover {
-                background-color: var(--surface-hover);
+            &.active-route {
+                font-weight: 700;
+                background-color: #2b6aff !important;
+                color: #ffffff !important;
+                box-shadow: 0 6px 16px rgba(43, 106, 255, 0.35);
+
+                .layout-menuitem-text {
+                    color: #ffffff !important;
+                }
+
+                .layout-menuitem-icon {
+                    color: #ffffff !important;
+                    path {
+                        fill: #ffffff !important;
+                    }
+                }
+
+                &:hover {
+                    background-color: #245be0 !important;
+                    color: #ffffff !important;
+                }
             }
 
             &:focus {
