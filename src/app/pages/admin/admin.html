@@ -4,71 +4,122 @@
   <!-- 1. OVERVIEW TAB -->
   @if (activeTab() === 'overview') {
     <div class="tab-panel animate-fadein">
-      <!-- 4 KPI Cards -->
-      <div class="grid-stats">
-        @for (stat of stats(); track stat.label) {
-          <div class="stat-card-sakai">
-            <div class="stat-card-top">
-              <span class="stat-label">{{ stat.label }}</span>
-              <p-tag [value]="stat.delta" severity="info" [rounded]="true" />
+      @if (loading()) {
+        <!-- Overview Shimmer Skeletons -->
+        <div class="grid-stats">
+          @for (i of [1, 2, 3, 4]; track i) {
+            <div class="stat-card-sakai">
+              <div class="stat-card-top">
+                <p-skeleton width="90px" height="14px" />
+                <p-skeleton width="46px" height="20px" borderRadius="12px" />
+              </div>
+              <div class="my-2">
+                <p-skeleton width="130px" height="28px" />
+              </div>
+              <div>
+                <p-skeleton width="180px" height="12px" />
+              </div>
             </div>
-            <div class="stat-val">{{ stat.value }}</div>
-            <div class="stat-desc">Ikilinganishwa na mwezi uliopita</div>
-          </div>
-        }
-      </div>
-
-      <!-- Charts & Live Feed Grid -->
-      <div class="grid-content mt-4">
-        <div class="content-card">
-          <div class="card-title-row">
-            <h4>Mahitaji kwa Vitengo (Category Breakdown)</h4>
-            <span class="text-muted">Dar es Salaam</span>
-          </div>
-          <div class="chart-wrapper">
-            <p-chart type="doughnut" [data]="chartData" [options]="chartOptions" height="260px" />
-          </div>
+          }
         </div>
 
-        <div class="content-card">
-          <div class="card-title-row">
-            <h4>Shughuli za Moja kwa Moja (Live Ops Feed)</h4>
-            <p-button label="Ona Michongo" icon="pi pi-arrow-right" [text]="true" size="small" (click)="setTab('jobs')" />
+        <div class="grid-content mt-4">
+          <div class="content-card">
+            <div class="card-title-row">
+              <p-skeleton width="220px" height="20px" />
+              <p-skeleton width="90px" height="14px" />
+            </div>
+            <div class="chart-wrapper flex justify-center items-center py-4">
+              <p-skeleton shape="circle" size="210px" />
+            </div>
           </div>
-          <ul class="activity-list-sakai">
-            <li>
-              <div class="activity-icon info">
-                <i class="pi pi-check"></i>
-              </div>
-              <div class="activity-details">
-                <strong>Kazi Mpya Imeunganishwa</strong>
-                <p>Asha Mwinyi ameanza kazi ya usafi Mikocheni B (TZS 35,000).</p>
-                <small>Dakika 8 zilizopita</small>
-              </div>
-            </li>
-            <li>
-              <div class="activity-icon warn">
-                <i class="pi pi-id-card"></i>
-              </div>
-              <div class="activity-details">
-                <strong>Ombi Jipya la NIDA</strong>
-                <p>Baraka Emmanuel ametuma stakabadhi za ufundi.</p>
-                <small>Dakika 24 zilizopita</small>
-              </div>
-            </li>
-            <li>
-              <div class="activity-icon info">
-                <i class="pi pi-wallet"></i>
-              </div>
-              <div class="activity-details">
-                <strong>Malipo Yamekamilika</strong>
-                <p>TZS 18,000 zimetumwa kwenye mkoba wa Juma Said.</p>
-                <small>Saa 1 lililopita</small>
-              </div>
-            </li>
-          </ul>
+
+          <div class="content-card">
+            <div class="card-title-row">
+              <p-skeleton width="200px" height="20px" />
+              <p-skeleton width="90px" height="16px" />
+            </div>
+            <ul class="activity-list-sakai">
+              @for (i of [1, 2, 3]; track i) {
+                <li class="flex items-center gap-3">
+                  <p-skeleton shape="circle" size="38px" styleClass="flex-shrink-0" />
+                  <div class="flex-1">
+                    <p-skeleton width="150px" height="15px" />
+                    <p-skeleton width="260px" height="12px" styleClass="mt-2" />
+                    <p-skeleton width="90px" height="10px" styleClass="mt-1" />
+                  </div>
+                </li>
+              }
+            </ul>
+          </div>
         </div>
-      </div>
+      } @else {
+        <!-- 4 KPI Cards -->
+        <div class="grid-stats">
+          @for (stat of stats(); track stat.label) {
+            <div class="stat-card-sakai">
+              <div class="stat-card-top">
+                <span class="stat-label">{{ stat.label }}</span>
+                <p-tag [value]="stat.delta" severity="info" [rounded]="true" />
+              </div>
+              <div class="stat-val">{{ stat.value }}</div>
+              <div class="stat-desc">Ikilinganishwa na mwezi uliopita</div>
+            </div>
+          }
+        </div>
+
+        <!-- Charts & Live Feed Grid -->
+        <div class="grid-content mt-4">
+          <div class="content-card">
+            <div class="card-title-row">
+              <h4>Mahitaji kwa Vitengo (Category Breakdown)</h4>
+              <span class="text-muted">Dar es Salaam</span>
+            </div>
+            <div class="chart-wrapper">
+              <p-chart type="doughnut" [data]="chartData" [options]="chartOptions" height="260px" />
+            </div>
+          </div>
+
+          <div class="content-card">
+            <div class="card-title-row">
+              <h4>Shughuli za Moja kwa Moja (Live Ops Feed)</h4>
+              <p-button label="Ona Michongo" icon="pi pi-arrow-right" [text]="true" size="small" (click)="setTab('jobs')" />
+            </div>
+            <ul class="activity-list-sakai">
+              <li>
+                <div class="activity-icon info">
+                  <i class="pi pi-check"></i>
+                </div>
+                <div class="activity-details">
+                  <strong>Kazi Mpya Imeunganishwa</strong>
+                  <p>Asha Mwinyi ameanza kazi ya usafi Mikocheni B (TZS 35,000).</p>
+                  <small>Dakika 8 zilizopita</small>
+                </div>
+              </li>
+              <li>
+                <div class="activity-icon warn">
+                  <i class="pi pi-id-card"></i>
+                </div>
+                <div class="activity-details">
+                  <strong>Ombi Jipya la NIDA</strong>
+                  <p>Baraka Emmanuel ametuma stakabadhi za ufundi.</p>
+                  <small>Dakika 24 zilizopita</small>
+                </div>
+              </li>
+              <li>
+                <div class="activity-icon info">
+                  <i class="pi pi-wallet"></i>
+                </div>
+                <div class="activity-details">
+                  <strong>Malipo Yamekamilika</strong>
+                  <p>TZS 18,000 zimetumwa kwenye mkoba wa Juma Said.</p>
+                  <small>Saa 1 lililopita</small>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      }
     </div>
   }
 
@@ -96,59 +147,91 @@
           </div>
         </div>
 
-        <p-table [value]="filteredWorkers()" [paginator]="true" [rows]="10" responsiveLayout="scroll">
-          <ng-template pTemplate="header">
-            <tr>
-              <th>Jina la Mfanyakazi</th>
-              <th>Kitengo (Skill)</th>
-              <th>Rating</th>
-              <th>Kazi Zilizofanywa</th>
-              <th>Hadhi ya Uhakiki</th>
-              <th>Vitendo</th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-worker>
-            <tr>
-              <td>
-                <div class="flex-align-center gap-2">
-                  <div class="avatar-circle">{{ getInitials(worker.name) }}</div>
-                  <div>
-                    <strong>{{ worker.name }}</strong>
-                    <div class="text-xs text-muted">{{ worker.id }}</div>
+        @if (loading()) {
+          <!-- Workers Table Shimmer -->
+          <div class="table-shimmer-wrapper">
+            @for (i of [1, 2, 3, 4, 5]; track i) {
+              <div class="shimmer-table-row">
+                <div class="flex items-center gap-3" style="width: 28%;">
+                  <p-skeleton shape="circle" size="38px" styleClass="flex-shrink-0" />
+                  <div class="flex-1">
+                    <p-skeleton width="130px" height="16px" />
+                    <p-skeleton width="80px" height="11px" styleClass="mt-1" />
                   </div>
                 </div>
-              </td>
-              <td>
-                <p-tag [value]="worker.skill" severity="info" />
-              </td>
-              <td>
-                <span class="rating-stars">⭐ {{ worker.rating }}</span>
-              </td>
-              <td>
-                <strong>{{ worker.jobs }}</strong> kazi
-              </td>
-              <td>
-                <p-tag [value]="worker.status" [severity]="getSeverity(worker.status)" [rounded]="true" />
-              </td>
-              <td>
-                <p-button
-                  [label]="worker.status === 'Verified' ? 'Ondoa Badge' : 'Thibitisha'"
-                  [icon]="worker.status === 'Verified' ? 'pi pi-times' : 'pi pi-check'"
-                  [severity]="worker.status === 'Verified' ? 'secondary' : 'info'"
-                  size="small"
-                  (click)="toggleWorkerVerification(worker.id)"
-                />
-              </td>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="emptymessage">
-            <tr>
-              <td colspan="6" class="text-center p-4 text-muted">
-                Hakuna mfanyakazi anayelingana na utafutaji wako.
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
+                <div style="width: 18%;">
+                  <p-skeleton width="90px" height="24px" borderRadius="16px" />
+                </div>
+                <div style="width: 14%;">
+                  <p-skeleton width="60px" height="16px" />
+                </div>
+                <div style="width: 14%;">
+                  <p-skeleton width="70px" height="16px" />
+                </div>
+                <div style="width: 14%;">
+                  <p-skeleton width="80px" height="24px" borderRadius="16px" />
+                </div>
+                <div style="width: 12%;">
+                  <p-skeleton width="85px" height="30px" borderRadius="8px" />
+                </div>
+              </div>
+            }
+          </div>
+        } @else {
+          <p-table [value]="filteredWorkers()" [paginator]="true" [rows]="10" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Jina la Mfanyakazi</th>
+                <th>Kitengo (Skill)</th>
+                <th>Rating</th>
+                <th>Kazi Zilizofanywa</th>
+                <th>Hadhi ya Uhakiki</th>
+                <th>Vitendo</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-worker>
+              <tr>
+                <td>
+                  <div class="flex-align-center gap-2">
+                    <div class="avatar-circle">{{ getInitials(worker.name) }}</div>
+                    <div>
+                      <strong>{{ worker.name }}</strong>
+                      <div class="text-xs text-muted">{{ worker.id }}</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <p-tag [value]="worker.skill" severity="info" />
+                </td>
+                <td>
+                  <span class="rating-stars">⭐ {{ worker.rating }}</span>
+                </td>
+                <td>
+                  <strong>{{ worker.jobs }}</strong> kazi
+                </td>
+                <td>
+                  <p-tag [value]="worker.status" [severity]="getSeverity(worker.status)" [rounded]="true" />
+                </td>
+                <td>
+                  <p-button
+                    [label]="worker.status === 'Verified' ? 'Ondoa Badge' : 'Thibitisha'"
+                    [icon]="worker.status === 'Verified' ? 'pi pi-times' : 'pi pi-check'"
+                    [severity]="worker.status === 'Verified' ? 'secondary' : 'info'"
+                    size="small"
+                    (click)="toggleWorkerVerification(worker.id)"
+                  />
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="6" class="text-center p-4 text-muted">
+                  Hakuna mfanyakazi anayelingana na utafutaji wako.
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        }
       </div>
     </div>
   }
@@ -177,45 +260,74 @@
           </div>
         </div>
 
-        <p-table [value]="filteredJobs()" [paginator]="true" [rows]="10" responsiveLayout="scroll">
-          <ng-template pTemplate="header">
-            <tr>
-              <th>Kichwa cha Mchongo</th>
-              <th>Kitengo</th>
-              <th>Eneo (Location)</th>
-              <th>Bajeti (TZS)</th>
-              <th>Waombaji</th>
-              <th>Hadhi (Status)</th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-job>
-            <tr>
-              <td>
-                <strong>{{ job.title }}</strong>
-              </td>
-              <td>
-                <p-tag [value]="job.category" severity="secondary" />
-              </td>
-              <td>{{ job.area }}</td>
-              <td>
-                <strong class="text-primary">{{ job.budget }}</strong>
-              </td>
-              <td>
-                <span class="badge-pill">{{ job.applicants }} waombaji</span>
-              </td>
-              <td>
-                <p-tag [value]="job.status" [severity]="getSeverity(job.status)" [rounded]="true" />
-              </td>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="emptymessage">
-            <tr>
-              <td colspan="6" class="text-center p-4 text-muted">
-                Hakuna kazi iliyopatikana.
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
+        @if (loading()) {
+          <!-- Jobs Table Shimmer -->
+          <div class="table-shimmer-wrapper">
+            @for (i of [1, 2, 3, 4, 5]; track i) {
+              <div class="shimmer-table-row">
+                <div style="width: 32%;">
+                  <p-skeleton width="180px" height="16px" />
+                  <p-skeleton width="100px" height="11px" styleClass="mt-1" />
+                </div>
+                <div style="width: 16%;">
+                  <p-skeleton width="80px" height="24px" borderRadius="16px" />
+                </div>
+                <div style="width: 18%;">
+                  <p-skeleton width="95px" height="15px" />
+                </div>
+                <div style="width: 16%;">
+                  <p-skeleton width="90px" height="16px" />
+                </div>
+                <div style="width: 10%;">
+                  <p-skeleton width="70px" height="20px" borderRadius="12px" />
+                </div>
+                <div style="width: 8%;">
+                  <p-skeleton width="70px" height="22px" borderRadius="14px" />
+                </div>
+              </div>
+            }
+          </div>
+        } @else {
+          <p-table [value]="filteredJobs()" [paginator]="true" [rows]="10" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Kichwa cha Mchongo</th>
+                <th>Kitengo</th>
+                <th>Eneo (Location)</th>
+                <th>Bajeti (TZS)</th>
+                <th>Waombaji</th>
+                <th>Hadhi (Status)</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-job>
+              <tr>
+                <td>
+                  <strong>{{ job.title }}</strong>
+                </td>
+                <td>
+                  <p-tag [value]="job.category" severity="secondary" />
+                </td>
+                <td>{{ job.area }}</td>
+                <td>
+                  <strong class="text-primary">{{ job.budget }}</strong>
+                </td>
+                <td>
+                  <span class="badge-pill">{{ job.applicants }} waombaji</span>
+                </td>
+                <td>
+                  <p-tag [value]="job.status" [severity]="getSeverity(job.status)" [rounded]="true" />
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="6" class="text-center p-4 text-muted">
+                  Hakuna kazi iliyopatikana.
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        }
       </div>
     </div>
   }
@@ -232,49 +344,89 @@
           <p-tag [value]="pendingVerificationsCount() + ' Inasubiri'" severity="warn" [rounded]="true" />
         </div>
 
-        <div class="verification-grid mt-3">
-          @for (item of verifications(); track item.id) {
-            <div class="vcard-box" [class.vcard-approved]="item.status === 'Approved'">
-              <div class="vcard-top">
-                <div class="flex-align-center gap-2">
-                  <div class="avatar-circle">{{ getInitials(item.workerName) }}</div>
-                  <div>
-                    <strong>{{ item.workerName }}</strong>
-                    <div class="text-xs text-muted">{{ item.phone }} • {{ item.category }}</div>
+        @if (loading()) {
+          <!-- Verifications Cards Shimmer -->
+          <div class="verification-grid mt-3">
+            @for (i of [1, 2, 3, 4]; track i) {
+              <div class="vcard-box">
+                <div class="vcard-top">
+                  <div class="flex-align-center gap-2">
+                    <p-skeleton shape="circle" size="40px" />
+                    <div>
+                      <p-skeleton width="120px" height="15px" />
+                      <p-skeleton width="150px" height="11px" styleClass="mt-1" />
+                    </div>
+                  </div>
+                  <p-skeleton width="70px" height="22px" borderRadius="14px" />
+                </div>
+
+                <div class="vcard-info-box">
+                  <div class="info-line">
+                    <p-skeleton width="90px" height="13px" />
+                    <p-skeleton width="160px" height="15px" />
+                  </div>
+                  <div class="info-line">
+                    <p-skeleton width="60px" height="13px" />
+                    <p-skeleton width="110px" height="13px" />
+                  </div>
+                  <div class="info-line">
+                    <p-skeleton width="50px" height="13px" />
+                    <p-skeleton width="80px" height="13px" />
                   </div>
                 </div>
-                <p-tag [value]="item.status" [severity]="getSeverity(item.status)" [rounded]="true" />
-              </div>
 
-              <div class="vcard-info-box">
-                <div class="info-line">
-                  <span class="label">NIDA Number:</span>
-                  <strong class="font-mono text-primary">{{ item.nidaNumber }}</strong>
-                </div>
-                <div class="info-line">
-                  <span class="label">Makazi:</span>
-                  <span>{{ item.region }}</span>
-                </div>
-                <div class="info-line">
-                  <span class="label">Muda:</span>
-                  <span class="text-muted">{{ item.submittedAt }}</span>
+                <div class="vcard-actions-row">
+                  <p-skeleton width="90px" height="30px" borderRadius="8px" />
+                  <p-skeleton width="75px" height="30px" borderRadius="8px" />
                 </div>
               </div>
-
-              <div class="vcard-actions-row">
-                @if (item.status === 'Pending') {
-                  <p-button label="Thibitisha" icon="pi pi-check" severity="primary" size="small" (click)="approveVerification(item.id)" />
-                  <p-button label="Kataa" icon="pi pi-times" severity="danger" size="small" [outlined]="true" (click)="rejectVerification(item.id)" />
-                  <p-button icon="pi pi-eye" [text]="true" size="small" (click)="inspectVerification(item)" />
-                } @else {
-                  <div class="vcard-done-note">
-                    <i class="pi pi-check-circle mr-1"></i> Imekamilika ({{ item.status }})
+            }
+          </div>
+        } @else {
+          <div class="verification-grid mt-3">
+            @for (item of verifications(); track item.id) {
+              <div class="vcard-box" [class.vcard-approved]="item.status === 'Approved'">
+                <div class="vcard-top">
+                  <div class="flex-align-center gap-2">
+                    <div class="avatar-circle">{{ getInitials(item.workerName) }}</div>
+                    <div>
+                      <strong>{{ item.workerName }}</strong>
+                      <div class="text-xs text-muted">{{ item.phone }} • {{ item.category }}</div>
+                    </div>
                   </div>
-                }
+                  <p-tag [value]="item.status" [severity]="getSeverity(item.status)" [rounded]="true" />
+                </div>
+
+                <div class="vcard-info-box">
+                  <div class="info-line">
+                    <span class="label">NIDA Number:</span>
+                    <strong class="font-mono text-primary">{{ item.nidaNumber }}</strong>
+                  </div>
+                  <div class="info-line">
+                    <span class="label">Makazi:</span>
+                    <span>{{ item.region }}</span>
+                  </div>
+                  <div class="info-line">
+                    <span class="label">Muda:</span>
+                    <span class="text-muted">{{ item.submittedAt }}</span>
+                  </div>
+                </div>
+
+                <div class="vcard-actions-row">
+                  @if (item.status === 'Pending') {
+                    <p-button label="Thibitisha" icon="pi pi-check" severity="primary" size="small" (click)="approveVerification(item.id)" />
+                    <p-button label="Kataa" icon="pi pi-times" severity="danger" size="small" [outlined]="true" (click)="rejectVerification(item.id)" />
+                    <p-button icon="pi pi-eye" [text]="true" size="small" (click)="inspectVerification(item)" />
+                  } @else {
+                    <div class="vcard-done-note">
+                      <i class="pi pi-check-circle mr-1"></i> Imekamilika ({{ item.status }})
+                    </div>
+                  }
+                </div>
               </div>
-            </div>
-          }
-        </div>
+            }
+          </div>
+        }
       </div>
     </div>
   }
@@ -282,133 +434,175 @@
   <!-- 5. FINANCES TAB -->
   @if (activeTab() === 'finances') {
     <div class="tab-panel animate-fadein">
-      <div class="grid-stats">
-        <div class="stat-card-sakai highlight-blue">
-          <div class="stat-card-top">
-            <span class="stat-label">Gross Platform Volume</span>
-            <p-tag value="Live" severity="info" [rounded]="true" />
-          </div>
-          <div class="stat-val text-primary">
-            TZS {{ (financeSummary()?.totalTransactionVolumeTzs || 263000).toLocaleString('en-US') }}
-          </div>
-          <div class="stat-desc">Thamani ya michongo yote iliyolipiwa</div>
-        </div>
-
-        <div class="stat-card-sakai">
-          <div class="stat-card-top">
-            <span class="stat-label">Platform Take-Rate (10%)</span>
-            <p-tag value="10% Fee" severity="info" [rounded]="true" />
-          </div>
-          <div class="stat-val text-success">
-            TZS {{ (financeSummary()?.totalPlatformFeesTzs || 26300).toLocaleString('en-US') }}
-          </div>
-          <div class="stat-desc">Mapato halisi ya MchongoFasta</div>
-        </div>
-
-        <div class="stat-card-sakai">
-          <div class="stat-card-top">
-            <span class="stat-label">Inayoshikiliwa Kwenye Escrow</span>
-            <p-tag value="Escrow Hold" severity="warn" [rounded]="true" />
-          </div>
-          <div class="stat-val">
-            TZS {{ (financeSummary()?.activeEscrowHoldTzs || 205000).toLocaleString('en-US') }}
-          </div>
-          <div class="stat-desc">Kazi zinazoendelea kabla ya kukamilika</div>
-        </div>
-
-        <div class="stat-card-sakai">
-          <div class="stat-card-top">
-            <span class="stat-label">Wastani kwa Mfanyakazi</span>
-            <p-tag value="Average" severity="contrast" [rounded]="true" />
-          </div>
-          <div class="stat-val">
-            TZS {{ (financeSummary()?.workerMonthlyEarningsAverageTzs || 380000).toLocaleString('en-US') }}
-          </div>
-          <div class="stat-desc">Mapato ya mfanyakazi kwa mwezi</div>
-        </div>
-      </div>
-
-      <!-- Live Transaction Ledger -->
-      <div class="content-card mt-4">
-        <div class="table-header-row">
-          <div>
-            <h3>Daftari la Miamala ya Escrow & Malipo (Transaction Ledger)</h3>
-            <p class="text-muted">Miamala yote ya kazi, makato ya kamisheni (10%), na malipo ya vibarakashia moja kwa moja kutoka seva.</p>
-          </div>
-        </div>
-
-        <p-table [value]="transactions()" [paginator]="true" [rows]="5" responsiveLayout="scroll">
-          <ng-template pTemplate="header">
-            <tr>
-              <th>ID ya Muamala</th>
-              <th>Mchongo / Kazi</th>
-              <th>Mwajiri (Payer)</th>
-              <th>Mfanyakazi (Payee)</th>
-              <th>Jumla (TZS)</th>
-              <th>Ada ya Jukwaa (10%)</th>
-              <th>Malipo ya Mfanyakazi</th>
-              <th>Njia ya Malipo</th>
-              <th>Hadhi (Status)</th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-tx>
-            <tr>
-              <td class="font-mono text-xs">{{ tx.id }}</td>
-              <td><strong>{{ tx.jobTitle }}</strong></td>
-              <td>{{ tx.employerName }}</td>
-              <td>{{ tx.workerName }}</td>
-              <td><strong>TZS {{ tx.amountTzs.toLocaleString('en-US') }}</strong></td>
-              <td class="text-success font-semibold">+TZS {{ tx.platformFeeTzs.toLocaleString('en-US') }}</td>
-              <td>TZS {{ tx.workerPayoutTzs.toLocaleString('en-US') }}</td>
-              <td>
-                <span class="text-xs">{{ tx.paymentMethod }}</span>
-              </td>
-              <td>
-                <p-tag [value]="tx.status" [severity]="getSeverity(tx.status)" [rounded]="true" />
-              </td>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="emptymessage">
-            <tr>
-              <td colspan="9" class="text-center p-4 text-muted">
-                Hakuna muamala uliopatikana.
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
-      </div>
-
-      <div class="content-card mt-4">
-        <div class="card-title-row">
-          <h4>Muundo wa Mapato (Monetization & Commission Streams)</h4>
-        </div>
-        <div class="streams-list">
-          <div class="stream-row">
-            <div class="stream-badge blue">10%</div>
-            <div class="stream-info">
-              <strong>Kamisheni ya Kazi (Marketplace Take-Rate)</strong>
-              <p class="text-muted">Inakatwa moja kwa moja wakati kazi inapokamilika na mteja akalipa.</p>
+      @if (loading()) {
+        <!-- Finances KPI Shimmers -->
+        <div class="grid-stats">
+          @for (i of [1, 2, 3, 4]; track i) {
+            <div class="stat-card-sakai">
+              <div class="stat-card-top">
+                <p-skeleton width="110px" height="14px" />
+                <p-skeleton width="45px" height="20px" borderRadius="12px" />
+              </div>
+              <div class="my-2">
+                <p-skeleton width="140px" height="28px" />
+              </div>
+              <div>
+                <p-skeleton width="170px" height="12px" />
+              </div>
             </div>
-            <p-tag value="Live / Inatumika" severity="info" [rounded]="true" />
-          </div>
-          <div class="stream-row">
-            <div class="stream-badge purple">VIP</div>
-            <div class="stream-info">
-              <strong>Uhakiki wa Haraka (Instant Worker KYC)</strong>
-              <p class="text-muted">Ada ya TZS 5,000 kwa mfanyakazi anayetaka NIDA yake ihakikiwe ndani ya masaa 2.</p>
+          }
+        </div>
+
+        <div class="content-card mt-4">
+          <div class="table-header-row">
+            <div>
+              <p-skeleton width="280px" height="22px" />
+              <p-skeleton width="380px" height="13px" styleClass="mt-2" />
             </div>
-            <p-tag value="Inakuja Hivi Karibuni" severity="secondary" [rounded]="true" />
           </div>
-          <div class="stream-row">
-            <div class="stream-badge orange">AD</div>
-            <div class="stream-info">
-              <strong>Kazi Zilizo Kipaumbele (Featured Job Placement)</strong>
-              <p class="text-muted">Waajiri kulipia michongo yao ikae juu ili ipate mafundi haraka zaidi.</p>
-            </div>
-            <p-tag value="Inakuja Hivi Karibuni" severity="secondary" [rounded]="true" />
+          <div class="table-shimmer-wrapper">
+            @for (i of [1, 2, 3, 4]; track i) {
+              <div class="shimmer-table-row">
+                <div style="width: 14%;"><p-skeleton width="90px" height="14px" /></div>
+                <div style="width: 24%;"><p-skeleton width="150px" height="15px" /></div>
+                <div style="width: 14%;"><p-skeleton width="100px" height="14px" /></div>
+                <div style="width: 14%;"><p-skeleton width="100px" height="14px" /></div>
+                <div style="width: 12%;"><p-skeleton width="80px" height="15px" /></div>
+                <div style="width: 10%;"><p-skeleton width="60px" height="14px" /></div>
+                <div style="width: 12%;"><p-skeleton width="75px" height="22px" borderRadius="14px" /></div>
+              </div>
+            }
           </div>
         </div>
-      </div>
+      } @else {
+        <div class="grid-stats">
+          <div class="stat-card-sakai highlight-blue">
+            <div class="stat-card-top">
+              <span class="stat-label">Gross Platform Volume</span>
+              <p-tag value="Live" severity="info" [rounded]="true" />
+            </div>
+            <div class="stat-val text-primary">
+              TZS {{ (financeSummary()?.totalTransactionVolumeTzs || 263000).toLocaleString('en-US') }}
+            </div>
+            <div class="stat-desc">Thamani ya michongo yote iliyolipiwa</div>
+          </div>
+
+          <div class="stat-card-sakai">
+            <div class="stat-card-top">
+              <span class="stat-label">Platform Take-Rate (10%)</span>
+              <p-tag value="10% Fee" severity="info" [rounded]="true" />
+            </div>
+            <div class="stat-val text-success">
+              TZS {{ (financeSummary()?.totalPlatformFeesTzs || 26300).toLocaleString('en-US') }}
+            </div>
+            <div class="stat-desc">Mapato halisi ya MchongoFasta</div>
+          </div>
+
+          <div class="stat-card-sakai">
+            <div class="stat-card-top">
+              <span class="stat-label">Inayoshikiliwa Kwenye Escrow</span>
+              <p-tag value="Escrow Hold" severity="warn" [rounded]="true" />
+            </div>
+            <div class="stat-val">
+              TZS {{ (financeSummary()?.activeEscrowHoldTzs || 205000).toLocaleString('en-US') }}
+            </div>
+            <div class="stat-desc">Kazi zinazoendelea kabla ya kukamilika</div>
+          </div>
+
+          <div class="stat-card-sakai">
+            <div class="stat-card-top">
+              <span class="stat-label">Wastani kwa Mfanyakazi</span>
+              <p-tag value="Average" severity="contrast" [rounded]="true" />
+            </div>
+            <div class="stat-val">
+              TZS {{ (financeSummary()?.workerMonthlyEarningsAverageTzs || 380000).toLocaleString('en-US') }}
+            </div>
+            <div class="stat-desc">Mapato ya mfanyakazi kwa mwezi</div>
+          </div>
+        </div>
+
+        <!-- Live Transaction Ledger -->
+        <div class="content-card mt-4">
+          <div class="table-header-row">
+            <div>
+              <h3>Daftari la Miamala ya Escrow & Malipo (Transaction Ledger)</h3>
+              <p class="text-muted">Miamala yote ya kazi, makato ya kamisheni (10%), na malipo ya vibarakashia moja kwa moja kutoka seva.</p>
+            </div>
+          </div>
+
+          <p-table [value]="transactions()" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>ID ya Muamala</th>
+                <th>Mchongo / Kazi</th>
+                <th>Mwajiri (Payer)</th>
+                <th>Mfanyakazi (Payee)</th>
+                <th>Jumla (TZS)</th>
+                <th>Ada ya Jukwaa (10%)</th>
+                <th>Malipo ya Mfanyakazi</th>
+                <th>Njia ya Malipo</th>
+                <th>Hadhi (Status)</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-tx>
+              <tr>
+                <td class="font-mono text-xs">{{ tx.id }}</td>
+                <td><strong>{{ tx.jobTitle }}</strong></td>
+                <td>{{ tx.employerName }}</td>
+                <td>{{ tx.workerName }}</td>
+                <td><strong>TZS {{ tx.amountTzs.toLocaleString('en-US') }}</strong></td>
+                <td class="text-success font-semibold">+TZS {{ tx.platformFeeTzs.toLocaleString('en-US') }}</td>
+                <td>TZS {{ tx.workerPayoutTzs.toLocaleString('en-US') }}</td>
+                <td>
+                  <span class="text-xs">{{ tx.paymentMethod }}</span>
+                </td>
+                <td>
+                  <p-tag [value]="tx.status" [severity]="getSeverity(tx.status)" [rounded]="true" />
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="9" class="text-center p-4 text-muted">
+                  Hakuna muamala uliopatikana.
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+
+        <div class="content-card mt-4">
+          <div class="card-title-row">
+            <h4>Muundo wa Mapato (Monetization & Commission Streams)</h4>
+          </div>
+          <div class="streams-list">
+            <div class="stream-row">
+              <div class="stream-badge blue">10%</div>
+              <div class="stream-info">
+                <strong>Kamisheni ya Kazi (Marketplace Take-Rate)</strong>
+                <p class="text-muted">Inakatwa moja kwa moja wakati kazi inapokamilika na mteja akalipa.</p>
+              </div>
+              <p-tag value="Live / Inatumika" severity="info" [rounded]="true" />
+            </div>
+            <div class="stream-row">
+              <div class="stream-badge purple">VIP</div>
+              <div class="stream-info">
+                <strong>Uhakiki wa Haraka (Instant Worker KYC)</strong>
+                <p class="text-muted">Ada ya TZS 5,000 kwa mfanyakazi anayetaka NIDA yake ihakikiwe ndani ya masaa 2.</p>
+              </div>
+              <p-tag value="Inakuja Hivi Karibuni" severity="secondary" [rounded]="true" />
+            </div>
+            <div class="stream-row">
+              <div class="stream-badge orange">AD</div>
+              <div class="stream-info">
+                <strong>Kazi Zilizo Kipaumbele (Featured Job Placement)</strong>
+                <p class="text-muted">Waajiri kulipia michongo yao ikae juu ili ipate mafundi haraka zaidi.</p>
+              </div>
+              <p-tag value="Inakuja Hivi Karibuni" severity="secondary" [rounded]="true" />
+            </div>
+          </div>
+        </div>
+      }
     </div>
   }
 

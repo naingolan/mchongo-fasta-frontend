@@ -324,6 +324,24 @@
   margin-top: 14px;
 }
 
+.table-shimmer-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 0;
+}
+
+.shimmer-table-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--surface-ground);
+  border: 1px solid var(--surface-border);
+}
+
 @media (max-width: 1080px) {
   .grid-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
