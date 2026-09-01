@@ -52,6 +52,12 @@
   cursor: pointer;
   transition: all 0.15s ease;
 
+  .pill-icon {
+    margin-right: 6px;
+    flex-shrink: 0;
+    vertical-align: middle;
+  }
+
   .pill-badge {
     margin-left: 6px;
     padding: 2px 7px;
