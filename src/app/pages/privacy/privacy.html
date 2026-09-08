@@ -1,0 +1,335 @@
+<div class="page">
+  <header class="nav">
+    <a class="brand" routerLink="/">
+      <img src="app_icon.png" alt="" width="30" height="30" />
+      <strong>MchongoFasta</strong>
+    </a>
+    <a class="back" routerLink="/">Back to home</a>
+  </header>
+
+  <main class="wrap">
+    <div class="hero">
+      <span class="eyebrow">Legal</span>
+      <h1>Privacy Policy</h1>
+      <p class="dates">
+        Effective {{ effectiveDate }} · Applies to the MchongoFasta mobile app
+        (<code>com.mchongofasta.app</code>) and this website.
+      </p>
+    </div>
+
+    <aside class="summary" aria-label="Summary">
+      <h2>The short version</h2>
+      <ul>
+        <li>We collect your phone number, your name, the area you work or hire in, and your job activity — because the marketplace cannot match anyone without them.</li>
+        <li>We use your location only while the app is open, and only to show work near you. You can refuse, and the app still works.</li>
+        <li>Workers may give a National ID (NIDA) number for verification. It is optional, it is never shown to other users, and we use it for nothing else.</li>
+        <li>We do not handle your money and we charge you nothing. Employers and workers agree a price in the app and pay each other directly, outside it, so we hold no card, bank or mobile money details.</li>
+        <li>We do not sell your data, and we run no advertising or tracking SDKs.</li>
+        <li>You can ask us to delete your account and your data at any time by emailing <a href="mailto:{{ contactEmail }}">{{ contactEmail }}</a>.</li>
+      </ul>
+    </aside>
+
+    <nav class="toc" aria-label="Contents">
+      <h2>Contents</h2>
+      <ol>
+        @for (section of sections; track section.id) {
+          <li><a [href]="'#' + section.id">{{ section.title }}</a></li>
+        }
+      </ol>
+    </nav>
+
+    <article class="doc">
+      <section id="who-we-are">
+        <h2>1. Who we are</h2>
+        <p>
+          MchongoFasta is a daily-work marketplace that connects verified workers with households
+          and small businesses in Tanzania. In this policy, "we", "us" and "MchongoFasta" mean
+          MchongoFasta, the operator of the app and this website, and the data controller
+          responsible for the personal data described here.
+        </p>
+        <p class="todo">
+          Registered name, company registration number and registered office:
+          <strong>[TO BE COMPLETED BEFORE PUBLICATION]</strong>.
+        </p>
+        <p>
+          This policy is written to meet Tanzania's Personal Data Protection Act, 2022 and the
+          Google Play User Data policy. If you do not agree with it, please do not use the app.
+        </p>
+      </section>
+
+      <section id="what-we-collect">
+        <h2>2. What we collect</h2>
+
+        <h3>2.1 Information you give us</h3>
+        <ul>
+          <li><strong>Phone number.</strong> You sign in with a Tanzanian phone number and a one-time code (OTP) sent to it. This is how we identify your account.</li>
+          <li><strong>Name.</strong> Your full name if you are a worker, or your business name if you are an employer.</li>
+          <li><strong>Role.</strong> Whether you use MchongoFasta to find work or to hire.</li>
+          <li><strong>Area.</strong> The part of Dar es Salaam you work or hire in.</li>
+          <li><strong>Work categories.</strong> The kinds of work you offer, such as cleaning, delivery, care or repairs.</li>
+          <li><strong>National ID (NIDA) number.</strong> Optional. See section 4.</li>
+        </ul>
+
+        <h3>2.2 Information created by using the app</h3>
+        <ul>
+          <li><strong>Job activity.</strong> Tasks you post, jobs you apply for, matches, and the status of that work.</li>
+          <li><strong>Ratings and reviews.</strong> Feedback exchanged after a job, and the trust score calculated from it.</li>
+        </ul>
+
+        <h3>2.3 Location</h3>
+        <p>
+          If you grant permission, the app reads your approximate or precise device location to show
+          jobs and workers near you and to place them on a map. We read it only while the app is
+          open and in use. We never read your location in the background. You can refuse or later
+          withdraw the permission in your device settings; the app continues to work, and you can
+          browse by area instead.
+        </p>
+
+        <h3>2.4 Technical information</h3>
+        <p>
+          When the app or website contacts our servers we automatically receive an IP address,
+          device model, operating system version, app version, and the date and time of the request.
+          We use this to keep the service running, to diagnose faults and to detect abuse.
+        </p>
+
+        <h3>2.5 What we do not collect</h3>
+        <ul>
+          <li>No payment card, bank account or mobile money credentials.</li>
+          <li>No contacts, photos, microphone, camera or SMS content.</li>
+          <li>No advertising identifiers, and no third-party advertising or analytics SDKs.</li>
+        </ul>
+      </section>
+
+      <section id="why-we-use-it">
+        <h2>3. Why we use it</h2>
+        <table>
+          <thead>
+            <tr><th>Purpose</th><th>Data used</th><th>Lawful basis</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Create and secure your account</td>
+              <td>Phone number, OTP, technical data</td>
+              <td>Performance of our agreement with you</td>
+            </tr>
+            <tr>
+              <td>Match workers with jobs</td>
+              <td>Name, role, area, categories, location, job activity</td>
+              <td>Performance of our agreement with you</td>
+            </tr>
+            <tr>
+              <td>Verify workers so employers can hire safely</td>
+              <td>NIDA number, phone number, name</td>
+              <td>Your consent, and our legitimate interest in a trustworthy marketplace</td>
+            </tr>
+            <tr>
+              <td>Show ratings and trust scores</td>
+              <td>Ratings, completed job history</td>
+              <td>Legitimate interest in a trustworthy marketplace</td>
+            </tr>
+            <tr>
+              <td>Prevent fraud, abuse and impersonation</td>
+              <td>Technical data, account and job activity</td>
+              <td>Legitimate interest in protecting users</td>
+            </tr>
+            <tr>
+              <td>Support, and answering your privacy requests</td>
+              <td>Whatever you include in your message</td>
+              <td>Legal obligation and legitimate interest</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          We do not use your personal data to make automated decisions that have a legal or
+          similarly significant effect on you.
+        </p>
+      </section>
+
+      <section id="nida">
+        <h2>4. National ID and verification</h2>
+        <p>
+          A National Identification Number (NIDA) is a sensitive identifier, so we treat it
+          separately from the rest of your profile:
+        </p>
+        <ul>
+          <li><strong>It is optional.</strong> You can use MchongoFasta without giving it. Verified workers are shown a verification badge, which tends to attract more hires.</li>
+          <li><strong>It is used only to confirm you are who you say you are.</strong> Nothing else.</li>
+          <li><strong>It is never shown to other users.</strong> Employers see a verification badge, not your ID number.</li>
+          <li><strong>It is never sold, rented or shared for marketing.</strong> We disclose it only where the law requires it.</li>
+          <li>You can withdraw it at any time by writing to us; we then delete the number and remove the verification badge.</li>
+        </ul>
+      </section>
+
+      <section id="sharing">
+        <h2>5. Who we share it with</h2>
+
+        <h3>5.1 Other users</h3>
+        <p>
+          The marketplace only works if people can see who they might work with. Other users see
+          your name or business name, your role, your area, your work categories, your ratings, and
+          whether you are verified. They do not see your phone number until a match is made, and
+          they never see your NIDA number or your exact location.
+        </p>
+
+        <h3>5.2 Service providers</h3>
+        <p>We use a small number of providers who process data on our instructions:</p>
+        <ul>
+          <li><strong>Google Maps Platform</strong> — renders the map and place data. Google receives the map requests your device makes, including its IP address and the map area being viewed. See Google's Privacy Policy.</li>
+          <li><strong>Google Fonts</strong> — serves the app's typefaces. Google receives your IP address when a font is fetched.</li>
+          <li><strong>Vercel Inc.</strong> — hosts our API and this website.</li>
+          <li><strong>MongoDB Atlas</strong> — stores our database.</li>
+        </ul>
+
+        <h3>5.3 Legal and safety</h3>
+        <p>
+          We disclose personal data where we are required to by Tanzanian law, a court order, or a
+          lawful request from a competent authority, or where it is necessary to investigate fraud
+          or protect someone's safety.
+        </p>
+
+        <h3>5.4 Business transfers</h3>
+        <p>
+          If MchongoFasta is merged, acquired or restructured, personal data may transfer to the
+          new owner. We will tell you before that happens and before this policy changes.
+        </p>
+
+        <h3>5.5 What we never do</h3>
+        <p>We do not sell your personal data, and we do not share it with data brokers or advertisers.</p>
+      </section>
+
+      <section id="payments">
+        <h2>6. Payments</h2>
+        <p>
+          <strong>MchongoFasta does not process payments and does not charge you anything.</strong>
+          The employer and the worker agree a price in the app and then settle it directly between
+          themselves, outside MchongoFasta, by whatever means they choose. We are not a party to
+          that payment and we take no fee or commission from it.
+        </p>
+        <p>
+          Because of this we never collect, hold or transmit card numbers, bank account details or
+          mobile money credentials, and we hold no financial records about you at all. The app is
+          free to use for both workers and employers.
+        </p>
+        <p>
+          If that ever changes — if we introduce in-app payments or start charging a fee — we will
+          update this policy, name any payment provider involved, and tell you before the change
+          takes effect.
+        </p>
+      </section>
+
+      <section id="retention">
+        <h2>7. How long we keep it</h2>
+        <ul>
+          <li><strong>Account data</strong> — for as long as your account is open.</li>
+          <li><strong>Job and rating history</strong> — kept while your account is open, because trust scores depend on it.</li>
+          <li><strong>NIDA number</strong> — kept only while your account is verified, and deleted when you withdraw it or close your account.</li>
+          <li><strong>Technical logs</strong> — up to 12 months.</li>
+          <li><strong>After you ask us to delete your account</strong> — removed within 30 days, except anything we must keep by law, which we isolate and keep no longer than the law requires.</li>
+        </ul>
+      </section>
+
+      <section id="security">
+        <h2>8. How we protect it</h2>
+        <p>
+          Data travels over encrypted connections (HTTPS/TLS). Our database is access-controlled and
+          reachable only by the application and by staff who need it. We keep the number of people
+          with access small.
+        </p>
+        <p>
+          No system is perfectly secure. If a breach affects your personal data and is likely to
+          harm you, we will notify you and the Personal Data Protection Commission as the Personal
+          Data Protection Act, 2022 requires.
+        </p>
+      </section>
+
+      <section id="rights">
+        <h2>9. Your rights</h2>
+        <p>Under the Personal Data Protection Act, 2022 you have the right to:</p>
+        <ul>
+          <li>be told what personal data we hold about you, and get a copy;</li>
+          <li>have inaccurate or incomplete data corrected;</li>
+          <li>have your data deleted (see section 10);</li>
+          <li>object to, or ask us to restrict, a particular use;</li>
+          <li>withdraw consent you have given — for example your NIDA number — without affecting what we did lawfully before you withdrew it;</li>
+          <li>receive your data in a portable form; and</li>
+          <li>complain to the Personal Data Protection Commission of Tanzania.</li>
+        </ul>
+        <p>
+          Write to <a href="mailto:{{ contactEmail }}">{{ contactEmail }}</a> to use any of these.
+          We answer within 30 days and we do not charge for it. We may ask you to confirm control of
+          your registered phone number before we act, so that nobody can use these rights against
+          you.
+        </p>
+      </section>
+
+      <section id="deletion">
+        <h2>10. Deleting your account and data</h2>
+        <p>To delete your MchongoFasta account and the personal data attached to it:</p>
+        <ol>
+          <li>Email <a href="mailto:{{ contactEmail }}">{{ contactEmail }}</a> from the phone number or address on your account, with the subject "Delete my account".</li>
+          <li>Tell us the phone number the account uses, so we can find it.</li>
+          <li>We confirm the request, then delete the account within 30 days.</li>
+        </ol>
+        <p>
+          <strong>What is deleted:</strong> your profile, phone number, name, area, work categories,
+          NIDA number, job applications and postings, and your ratings.
+        </p>
+        <p>
+          <strong>What may be kept:</strong> records we are required by law to retain, and
+          aggregated statistics that can no longer identify you. Anything kept is isolated from the
+          live service and deleted once the legal reason ends.
+        </p>
+      </section>
+
+      <section id="transfers">
+        <h2>11. Where your data is stored</h2>
+        <p>
+          Our hosting and database providers operate data centres outside Tanzania, so your personal
+          data is transferred and stored abroad. We only use providers that commit contractually to
+          protect it to a standard consistent with the Personal Data Protection Act, 2022, and we
+          transfer no more than the service needs.
+        </p>
+      </section>
+
+      <section id="children">
+        <h2>12. Age limit</h2>
+        <p>
+          MchongoFasta is for adults. You must be at least 18 years old to create an account,
+          whether as a worker or as an employer. We do not knowingly collect personal data from
+          anyone under 18. If you believe a minor has an account, write to us and we will delete it.
+        </p>
+      </section>
+
+      <section id="changes">
+        <h2>13. Changes to this policy</h2>
+        <p>
+          We update this policy when the app changes. The effective date at the top always shows the
+          current version. If a change materially affects your rights — for example if we begin
+          processing payments or add a new category of data — we will notify you in the app or by
+          SMS before it takes effect.
+        </p>
+      </section>
+
+      <section id="contact">
+        <h2>14. Contact us</h2>
+        <p>
+          For any privacy question, request or complaint, or to exercise any right in section 9:
+        </p>
+        <p class="contact-block">
+          <strong>MchongoFasta</strong><br />
+          Email: <a href="mailto:{{ contactEmail }}">{{ contactEmail }}</a><br />
+          Dar es Salaam, Tanzania
+        </p>
+        <p>
+          If you are not satisfied with our answer, you may complain to the Personal Data Protection
+          Commission of Tanzania.
+        </p>
+      </section>
+    </article>
+  </main>
+
+  <footer class="foot">
+    <a routerLink="/">MchongoFasta</a>
+    <span>© 2026 MchongoFasta. All rights reserved.</span>
+  </footer>
+</div>

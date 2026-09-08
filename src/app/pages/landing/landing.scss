@@ -770,6 +770,22 @@ main,
   padding: 8px clamp(16px, 4vw, 24px) 40px;
 }
 
+.footer-links {
+  display: flex;
+  gap: 18px;
+  white-space: nowrap;
+
+  a {
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: #475569;
+
+    &:hover {
+      color: #2b6aff;
+    }
+  }
+}
+
 .modal-note {
   margin: 12px 0 0;
   font-size: 0.82rem;

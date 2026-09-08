@@ -7,6 +7,11 @@ export const routes: Routes = [
     title: 'MchongoFasta | Marketplace ya Kazi na Wafanyakazi Tanzania',
   },
   {
+    path: 'privacy',
+    loadComponent: () => import('./pages/privacy/privacy').then((m) => m.PrivacyComponent),
+    title: 'Privacy Policy | MchongoFasta',
+  },
+  {
     path: 'admin',
     loadComponent: () => import('./layout/component/app.layout').then((m) => m.AppLayout),
     children: [
