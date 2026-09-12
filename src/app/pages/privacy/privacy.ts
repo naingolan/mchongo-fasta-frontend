@@ -32,6 +32,5 @@ export class PrivacyComponent {
     { id: 'contact', title: 'Contact us' },
   ];
 
-  protected readonly effectiveDate = '8 September 2026';
   protected readonly contactEmail = 'kelvinsdechaw@gmail.com';
 }
